@@ -1,0 +1,30 @@
+2 create s1 null -100 200
+3 create s2 null 500 100
+3 create s3 null 10 500
+
+3 add physics s1 100 -100 5 0 100
+3 add physics s2 -100 -100 0 0 100 2
+3 add physics s3 100 -400 60 0 200 -30
+
+3 add effect s2 flash 2 0 0 1 0
+3 add effect s3 flash 1 1 0 0 0
+
+3 add effect s1 pixelate 0.5 0.2
+4 add effect s1 pixelate 0.5 0.2
+5 add effect s1 pixelate 0.5 0.2
+
+5.5 particles
+5.5 add effect screen flash 0.5 1 1 1
+5.5 create c cpu 200 200
+
+
+5.5 remove s1
+5.5 remove s2
+5.5 remove s3
+
+6 create c1 cpu 200 200
+6.5 create c2 cpu 200 200
+
+
+
+
