@@ -1,18 +1,36 @@
 class System {
+  // lists
+  ArrayList<Button> buttons;
   LinkedList<Sprite> sprites;
-  private int instructionsIndex;
-  private float nextInstructionTime;
+  ArrayList<ArrayList<String>> instructions;
+
+  // view control
+  private boolean mouseWasPressed;
+  private int instructionIndex;
+
+  private float playingOffsetTime;
 
   System() {
-    sprites = new LinkedList<Sprite>();
 
-    if(instructions.length > 0){
-      instructionsIndex = 0;
-    nextInstructionTime = Float.parseFloat(instructions[instructionsIndex].split(" ")[0]);
-    } else {
-      instructionsIndex = 0x3f3f3f3f;
+    // Buttons
+    buttons = new ArrayList<Button>();
+    sprites = new LinkedList<Sprite>();
+    instructions = loadInstructions();
+
+    instructionIndex = 0;
+
+    // check if proper data is retrived from model
+    if (instructions == null) {
+      new UiBooster().showWarningDialog("default files missing, correct instalations?", "Data Corruption!");
+      instructions = new ArrayList<ArrayList<String>>();
+      ArrayList<String> firstLine = new ArrayList<String>();
+      firstLine.add("0");
+      firstLine.add("place holder");
+      instructions.add(firstLine);
     }
-    
+
+    // other control variables
+    mouseWasPressed = false;
   }
 
   public void handleMessage(String msg) {
@@ -20,6 +38,9 @@ class System {
     String args[] = Arrays.copyOfRange(parsedMsg, 1, parsedMsg.length);
     switch(parsedMsg[0].toLowerCase()) {
     case "#":
+      break;
+    case "action":
+      handleButtonAction(args);
       break;
     case "create":
       createSprite(args);
@@ -30,9 +51,6 @@ class System {
     case "remove":
       deleteSprite(args);
       break;
-    case "particles":
-      toggleParticles(args);
-      break;
     case "print":
       printFunc(args);
       break;
@@ -42,27 +60,49 @@ class System {
     }
   }
 
-  public void runInstructions() {
-
-    if (instructionsIndex < instructions.length && nextInstructionTime < millis() / 1000.0) {
-      String parsedLine[] = instructions[instructionsIndex].split(" ");
-      String msg = "";
-      for (int i = 1; i < parsedLine.length; i++) {
-        msg += parsedLine[i];
-        msg += " ";
+  // for App
+  public void runView() {
+    if (!mouseWasPressed) {
+      // e for element
+      buttons.forEach((btn) -> {
+        if (mouseAtButton(btn)) {
+          if (mousePressed) {
+            mouseWasPressed = true;
+            btn.mouseWasDown = true;
+            btn.onMouseDown();
+          } else {
+            btn.onHover();
+          }
+        } else if (!btn.mouseWasDown) {
+          btn.noInteration();
+        }
       }
-      handleMessage(msg);
-      instructionsIndex++;
-      while (instructionsIndex <  instructions.length
-        && instructions[instructionsIndex].equals("")) {
-        instructionsIndex++;
-      }
-      if (instructionsIndex < instructions.length) {
-        nextInstructionTime = Float.parseFloat(
-          instructions[instructionsIndex].split(" ")[0]
-          );
-      }
+      );
     }
+
+    // render buttons
+    // fill color suppose to be same as background color to hide primary,
+    //  but that will create a bug and make the whole thing disappear
+  }
+
+  public void runInstructions() {
+    // if the time is there
+    if(Float.parseFloat(instructions.get(instructionIndex).get(0)) + playingOffsetTime < millis() / 1000.0){
+      ArrayList<String> msg = new ArrayList<String>(instructions.get(instructionIndex));
+      msg.remove(0);
+      handleMessage(String.join(" ", msg));
+      if(++instructionIndex < instructions.size()){
+         
+      }
+      // if last element
+      else {
+        playing = false;
+        instructionIndex = 0;
+        refreshView();
+      }
+      refreshRightPanel();
+    }
+
   }
 
   public void runSprites() {
@@ -73,44 +113,119 @@ class System {
     }
   }
 
-  public void runParticles(){
-    if(particleSystem != null){
-      particleSystem.render();
+  // for View
+  public void handleButtonAction(String args[]) {
+    if (args.length != 1) {
+      logError("internal button action message Error");
+      return;
+    }
+
+    switch(args[0]) {
+    case "create":
+      Form form = new UiBooster()
+        .createForm("Create Sprites")
+        .addText("Timing")
+        .addText("Sprite Name")
+        .addSelection("Sprite Shape", "default", "cpu")
+        .addSlider("Position X %", 0, 100, 1, 20, 10)
+        .addSlider("Position Y %", 0, 100, 1, 20, 10)
+        .show();
+
+      String timeString = form.getByIndex(0).asString();
+      try {
+        form.getByIndex(0).asFloat();
+      }
+      catch (Exception e) {
+        println(e);
+        new UiBooster().showErrorDialog("Please input a timing in seconds", "Action Now Allowed");
+        break;
+      }
+      String name = form.getByIndex(1).asString();
+      if(name.length() == 0){
+        name = "unnamed";
+      }
+      String shapeString = form.getByIndex(2).asString();
+      Float posX = form.getByIndex(3).asFloat() / 100.0 * width;
+      Float posY = form.getByIndex(4).asFloat() / 100.0 * height;
+
+      
+
+      ArrayList<String> line = new ArrayList<String>();
+      line.add(timeString);
+      line.add("create");
+      line.add(name);
+      line.add(shapeString);
+      line.add(posX.toString());
+      line.add(posY.toString());
+      
+      addInstruction(line);
+
+      break;
+
+    case "play":
+      instructionIndex = 0;
+      playingOffsetTime = millis() / 1000.0;
+      playing = true;
+      break;
+
+    case "x":
+      instructions.remove(instructionIndex);
+      saveInstructions(instructions);
+      refreshRightPanel();
+      break;
+
+    case "up":
+      if (instructionIndex != 0) {
+        instructionIndex--;
+        refreshRightPanel();
+      } else {
+        Toolkit.getDefaultToolkit().beep();
+      }
+      break;
+    case "down":
+      if (instructionIndex < instructions.size() - 1) {
+        instructionIndex++;
+        refreshRightPanel();
+      } else {
+        Toolkit.getDefaultToolkit().beep();
+      }
+      break;
     }
   }
 
+  // for general use
   public void logMessage(String msg) {
-
-    if (debugConsoleSurface != null && debugConsole != null) {
-      if (!debugConsoleVisible) {
-        debugConsoleSurface.resumeThread();
-        debugConsole.addMsg("    ~ " + msg);
-        debugConsoleSurface.pauseThread();
-      } else {
-        debugConsole.addMsg("    ~ " + msg);
-      }
-    } else {
-      println("    ~ " + msg);
-    }
+    println("    ~ " + msg);
   }
 
   public void logError(String msg) {
-    if (debugConsoleSurface != null && debugConsole != null) {
-      if (!debugConsoleVisible) {
-        debugConsoleSurface.resumeThread();
-        debugConsole.addMsg("    ! " + msg);
-        debugConsoleSurface.setVisible(true);
-        debugConsoleVisible = true;
-      } else {
-        debugConsole.addMsg("    ! " + msg);
-      }
-    } else {
-      println("    ! " + msg);
-    }
+    new UiBooster().showException(
+      msg,
+      "Exception message",
+      new Exception("Something went wrong ...")
+      );
+    println("    ! " + msg);
   }
 
 
+
   // private methods
+  private void addInstruction(ArrayList<String> line) {
+    float time = Float.parseFloat(line.get(0));
+    int i = 0;
+    while(Float.parseFloat(instructions.get(i).get(0)) < time){
+      if(++i == instructions.size()) break;
+    }
+    if(i == instructions.size()){
+      instructions.add(line);
+    } else{
+      instructions.add(i, line);
+    }
+    instructionIndex = i;
+    saveInstructions(instructions);
+    refreshRightPanel();
+  }
+
 
   private void createSprite (String args[]) {
     // Sprite constructor arguments
@@ -128,6 +243,9 @@ class System {
       switch(args[1]) {
       case "cpu":
         spriteShape = cpuShape();
+        break;
+      case "default":
+        spriteShape = defaultShape;
         break;
       default:
         logError("not a valid shape, using defaultshape instead");
@@ -149,9 +267,8 @@ class System {
       return;
     }
     sprites.add(new Sprite(name, spriteShape, posX, posY, rad));
-    if (debugConsole != null) {
-      logMessage("Succesful creation of object: " + name);
-    }
+
+    logMessage("Succesful creation of object: " + name);
   }
 
   private void deleteSprite(String args[]) {
@@ -203,11 +320,11 @@ class System {
     }
 
     Sprite sprite = findSprite(args[0]);
-    if(sprite == null){
+    if (sprite == null) {
       logError("Invalid sprite name");
       return;
     }
-    if(sprite.effect != null){
+    if (sprite.effect != null) {
       logError("Sprite " + args[0] + " has an existing effect already");
       return;
     }
@@ -236,6 +353,7 @@ class System {
       params.length > 3 ? params[3] : 0,
       params.length > 4 ? params[4] : 1
     };
+    logMessage("Added Effect to " + sprite.name);
     sprite.effect = new Effect(type, duration, vec4);
   }
 
@@ -305,29 +423,6 @@ class System {
     logMessage("Succesful Creation of " + args[0] + " phyiscs system with dy/dx of two");
   }
 
-  private void toggleParticles(String args[]){
-
-    // // try converting to floats first
-    // float params[] = new float[args.length];
-    // try {
-    //   for (int i = 0; i < params.length; i++) {
-    //     params[i] = Float.parseFloat((args[i+1]));
-    //   }
-    // }
-    // catch(Exception e) {
-    //   logError("Type Conversion Error");
-    //   println(e);
-    //   return;
-    // }
-
-    // for now just switch it on and off
-    if(particleSystem == null){
-      particleSystem = new ParticleSystem();
-    } else {
-      particleSystem = null;
-    }
-  }
-
   // print
   private void printFunc(String args[]) {
     if (args.length != 1) {
@@ -349,7 +444,7 @@ class System {
   }
 
   private Sprite findSprite(String name) {
-    if(name.equals("screen")){
+    if (name.equals("screen")) {
       //return screen;
     }
 
@@ -361,5 +456,17 @@ class System {
       }
     }
     return null;
+  }
+
+  // mouse functions
+  private boolean mouseAtButton(Button btn) {
+    if (mouseX >= btn.posXPercentage * width
+      && mouseX <= btn.posXPercentage * width + btn.widthPercentage * width) {
+      if (mouseY >= btn.posYPercentage * height
+        && mouseY <= btn.posYPercentage * height + btn.heightPercentage * width) {
+        return true;
+      }
+    }
+    return false;
   }
 }

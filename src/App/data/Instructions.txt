@@ -1,0 +1,11 @@
+1 create s1 default -100 200
+1 create s2 default 500 100
+1 create s3 default 10 500
+1 add physics s1 100 -100 5 0 100
+1 add physics s2 -100 -100 0 0 100 2
+1 add physics s3 100 -400 60 0 200 -30
+2 add effect s2 flash 2 0 0 1 0
+2 add effect s3 flash 1 1 0 0 0
+5 remove s1
+5 remove s2
+5 remove s3

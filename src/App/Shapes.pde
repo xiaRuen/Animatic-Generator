@@ -1,32 +1,26 @@
 PShape defaultShape() {
   PShape s;
-  PImage tex;
 
-  int defaultTexSize = 100; // not related to shape size, only decides how size of mapped texture
-  tex = loadImage("Images/blue-crystal.jpg");
-  tex.resize(defaultTexSize, defaultTexSize);
 
-  // the only complete compex shape formable for this formula is a star
+  // the only complete compelex shape for this formula is a star
   // x: r*sin(PI*4/5*v+a)
   // y: r*cos(PI*4/5*v+a)
   // where r is radius, v is vertex count, a is angle offset
   s = createShape();
   s.beginShape();
   s.noStroke();
-  s.texture(tex);
+  s.fill(color(0,0,255,200));
   float r = 30;
   float a = 0;
   for (int v = 0; v < 5; v++) {
     float x = r*sin(PI*4/5*v+a);
     float y = r*cos(PI*4/5*v+a);
-    s.vertex(x, y, (x+r)/r * defaultTexSize/2, (y+r)/r * defaultTexSize/2);
+    s.vertex(x, y);
   }
   s.endShape(CLOSE);
 
   return s;
 }
-
-
 
 
 PShape cpuShape() {
@@ -75,25 +69,18 @@ PShape cpuShape() {
     index++;
   }
   
-  // load Texture
-  PImage tex = loadImage("Images/red.jpg");
-
   // draw CPU sqaure
-  stroke(1);
+  stroke(color(255,0,0));
   PShape coreOuter = createShape(RECT, -coreRadius, -coreRadius, coreRadius * 2, coreRadius * 2);
-  coreOuter.setStroke(color(0,1,0.7));
-  coreOuter.setFill(color(0, 0, 0, 0));
+  coreOuter.setFill(color(0, 1, 0, 0)); // black with zero alpha is not allowed
   
-  stroke(0,0,1);
+
   float padding = coreRadius * 0.1;
   PShape coreInner = createShape(RECT, -coreRadius + padding, -coreRadius + padding,
     coreRadius * 2 - padding * 2, coreRadius * 2 - 2 * padding);
-  coreInner.setStroke(color(0, 1, 0.7));
-  coreInner.setFill(color(0, 1, 0.4));
+  coreInner.setFill(color(200,0,0));
 
   PShape lines[] = new PShape[totalLines];
-
-
 
 
   // draw lines
@@ -101,7 +88,7 @@ PShape cpuShape() {
     lines[i] = createShape();
     lines[i].beginShape();
     lines[i].noFill();
-    lines[i].stroke(0,1,0.5);
+    lines[i].stroke(250, 0,0);
 
     // point: xPos, yPos, likelyness to left or right turn, which side is it facing
     for (int run = 0; run < width / lineLength; run++) {
@@ -152,6 +139,5 @@ PShape cpuShape() {
   for (int i = 0; i < lines.length; i++) {
     p.addChild(lines[i]);
   }
-  p.setTexture(tex);
   return p;
 }

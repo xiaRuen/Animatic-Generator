@@ -1,78 +1,82 @@
+import org.gicentre.handy.*;
+
+// ui
+import uibooster.*;
+import uibooster.model.*;
+import uibooster.components.*;
+
 import java.util.*; // for LinkedList
 import java.awt.Toolkit; // for alert()
 import java.util.Arrays; // for Arrays.copyOfRange()
 import java.nio.*; // for buffers
 
-// DebugConsole variables
-DebugConsole debugConsole;
-PSurface debugConsoleSurface;
-boolean debugConsoleVisible;
-String API[];
-PFont CS;
-PFont CS_B;
-
 // System variables
 System system;
-String instructions[];
+boolean playing;
+
+//defaults
+PShape defaultShape;
+String instructionFilePath;
+
+// view related
+color themeColor;
+int padding = 10;
+
+int rightPanelWidth;
+int rightPanelHeight;
+
+int bottomPanelWidth;
+int bottomPanelHeight;
+
+color rightPannelBackground;
+color bottomPannelBackground;
+
+int textSize;
+PFont textFont;
+
+int buttonSize;
+PFont buttonFont;
+
 
 // other globals
 float previousTime;
 float elapsedTime;
-PShader generalShader;
+PApplet app; // to pass into HandyRenderer while inside the Button class
 Sprite screen;
-PGraphics screenGraphics;
-PGL gl;
-ParticleSystem particleSystem; // only one allowed
-
-//defaults
-PShape defaultShape;
-color backgroundColor;
-
-
-
 
 /*
-  Files: API is for a list of commands that one can input dynamically
- into the console or write it into instrucitons.txt by putting a time
- before the command and the system will execute accordingly.
- 
  Every function named render() relates to the render and update of
  itself, and is called externally, typically the System class.
  */
 void setup() {
-  // Load Files
-  API = loadStrings("API.txt");
-  instructions = loadStrings("Instructions.txt");
-
-  // create the Debug Console window and debug console related
-  String[] args = {"Debug Console"};
-  DebugConsole debugConsole = new DebugConsole();
-  //PApplet.runSketch(args, debugConsole);
-  CS = createFont("ComicSansMS", 20);
-  CS_B = createFont("ComicSansMS-Bold", 20);
-  debugConsoleVisible = false;
-
-  // load other classes
-  system = new System();
-
+  // initialize globals
+  app = this;
+  previousTime = millis() / 1000;
+  playing = false;
+  
   // initialize main window
-  size(400, 400, P2D);
+  size(600, 400);
   //fullScreen(P2D);
-  colorMode(HSB, 1);
   pixelDensity(displayDensity());
   surface.setResizable(true);
-  screen = new Sprite("screen", null, 0, 0, 0);
-  system.sprites.addFirst(screen);
 
-  // initialize globals
-  screenGraphics = this.g;
-  gl = screenGraphics.beginPGL();
-  previousTime = millis() / 1000;
-  generalShader = loadShader("Shaders/generalFrag.glsl", "Shaders/generalVert.glsl");
-  backgroundColor = color(0.05);
+  // defaults
   defaultShape = defaultShape();
+  instructionFilePath = dataPath("Instructions.txt");
 
-  particleSystem = new ParticleSystem();
+  // view
+  themeColor = color(250, 230, 230);
+  padding = 10;
+  updateDynamicViewVars();
+  textSize = 10;
+  textFont = createFont(dataPath("fonts/WenHei.ttf"), textSize);
+  buttonSize = 15;
+  buttonFont = createFont(dataPath("fonts/WenHei.ttf"), buttonSize);
+  
+  system = new System();
+
+  createUI();
+  refreshView();
   
 }
 
@@ -84,24 +88,46 @@ void draw() {
     elapsedTime = (time - previousTime);
     previousTime = time;
 
-    // start of render pipline
-    system.runInstructions();
-    system.runSprites();
-    system.runParticles();
+    if(playing){
+      refreshView();
+      system.runSprites();
+
+      fill(color(0,0,0,150));
+      textFont(textFont);
+      textAlign(LEFT,BOTTOM);
+      text("Time: " + (millis() / 1000.0 - system.playingOffsetTime), padding, height - bottomPanelHeight);
+
+      system.runInstructions();
+      
+    }
+    system.runView();
+    
+    
+
   }
 }
 
 void keyPressed() {
-  if (int(keyCode) == 92 && debugConsoleSurface != null) {
-    if (debugConsoleVisible) {
-      debugConsoleSurface.setVisible(false);
-      debugConsoleVisible = false;
-      debugConsoleSurface.pauseThread();
-    } else {
-      debugConsole.update();
-      debugConsoleSurface.setVisible(true);
-      debugConsoleVisible = true;
-      debugConsoleSurface.resumeThread();
+}
+
+// if the user mouseDown on element, but dragged mouse
+// somewhere else before releasing, then it doesn't count as a click
+void mouseReleased() {
+  system.mouseWasPressed = false;
+  system.buttons.forEach((e) -> {
+    if (e.mouseWasDown) {
+      if (system.mouseAtButton(e)) {
+        e.onMouseClick();
+      } else {
+        e.unSuccesfulClick();
+      }
+      e.mouseWasDown = false;
     }
   }
+  );
+}
+
+void windowResized() {
+  updateDynamicViewVars();
+  refreshView();
 }
