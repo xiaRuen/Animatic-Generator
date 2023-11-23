@@ -169,13 +169,17 @@ class System {
       break;
 
     case "x":
+      if(instructionIndex == -1){
+        Toolkit.getDefaultToolkit().beep();
+        break;
+      }
       instructions.remove(instructionIndex);
       saveInstructions(instructions);
       refreshRightPanel();
       break;
 
     case "up":
-      if (instructionIndex != 0) {
+      if (instructionIndex > 0) {
         instructionIndex--;
         refreshRightPanel();
       } else {
@@ -211,6 +215,14 @@ class System {
 
   // private methods
   private void addInstruction(ArrayList<String> line) {
+    if(instructions.size() == 0){
+      instructions.add(line);
+      instructionIndex = 0;
+      saveInstructions(instructions);
+      refreshRightPanel();
+      return;
+    }
+
     float time = Float.parseFloat(line.get(0));
     int i = 0;
     while(Float.parseFloat(instructions.get(i).get(0)) < time){
@@ -221,7 +233,6 @@ class System {
     } else{
       instructions.add(i, line);
     }
-    instructionIndex = i;
     saveInstructions(instructions);
     refreshRightPanel();
   }
