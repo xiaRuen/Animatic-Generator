@@ -54,11 +54,36 @@ Sprite screen;
  itself, and is called externally, typically the System class.
  */
 void setup() {
+  // Initial Settings
+  List<String> multiSelect = new UiBooster().showMultipleSelection(
+    "Search",
+    "Settings",
+    "Use Custom Instructions",
+    "Use Custom Music",
+    "Darkmode"
+    );
+
+  instructionFilePath = dataPath("Instructions.txt"); // default
+  if(multiSelect.contains("Use Custom Instructions")){
+    File f = new UiBooster().showFileSelection(".txt","txt");
+    if(f != null){ // if the user canceled the file selection popup
+      instructionFilePath = f.getPath();
+    }
+  }
+
+  musicFilePath = dataPath("echo.wav");
+  if(multiSelect.contains("Use Custom Music")){
+    File f = new UiBooster().showFileSelection(".wav","wav");
+    if(f != null){
+      musicFilePath = f.getPath();
+    }
+  }
+
   // initialize globals
   app = this;
   previousTime = millis() / 1000;
   playing = false;
-  
+
   // initialize main window
   size(600, 400);
   //fullScreen(P2D);
@@ -67,8 +92,6 @@ void setup() {
 
   // defaults
   defaultShape = defaultShape();
-  instructionFilePath = dataPath("Instructions.txt");
-  musicFilePath = dataPath("echo.wav");
 
   // view
   themeColor = color(250, 230, 230);
@@ -78,12 +101,12 @@ void setup() {
   textFont = createFont(dataPath("fonts/WenHei.ttf"), textSize);
   buttonSize = 15;
   buttonFont = createFont(dataPath("fonts/WenHei.ttf"), buttonSize);
-  
+
   system = new System();
 
   createUI();
   refreshView();
-  
+
 }
 
 
@@ -94,22 +117,18 @@ void draw() {
     elapsedTime = (time - previousTime);
     previousTime = time;
 
-    if(playing){
+    if (playing) {
       refreshView();
       system.runSprites();
 
-      fill(color(0,0,0,150));
+      fill(color(0, 0, 0, 150));
       textFont(textFont);
-      textAlign(LEFT,BOTTOM);
+      textAlign(LEFT, BOTTOM);
       text("Time: " + (millis() / 1000.0 - system.playingOffsetTime), padding, height - bottomPanelHeight);
 
       system.runInstructions();
-      
     }
     system.runView();
-    
-    
-
   }
 }
 

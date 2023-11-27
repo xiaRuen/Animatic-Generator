@@ -36,35 +36,35 @@ void createUI() {
 
   float currentPosX = padding;
   system.buttons.add(new Button(
-    "Create",
+    "Sprite",
     color(255),
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth) / width,
     (buttonHeight) / height,
-    () -> system.handleMessage("action create")
+    () -> system.handleMessage("action sprite")
     ));
 
   currentPosX += buttonWithPadding;
   system.buttons.add(new Button(
-    "Add",
+    "Lorem",
     color(255),
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth) / width,
     (buttonHeight) / height,
-    () -> system.handleMessage("action add")
+    () -> system.handleMessage("")
     ));
 
   currentPosX += buttonWithPadding;
   system.buttons.add(new Button(
-    "Remove",
+    "Ipsum",
     color(255),
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth) / width,
     (buttonHeight) / height,
-    () -> system.handleMessage("action remove")
+    () -> system.handleMessage("")
     ));
 
   currentPosX += buttonWithPadding;

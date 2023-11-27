@@ -1,5 +1,2 @@
-- Add another abstraction layer of GUI
-- Lunchscreen, open default file (checkbox)
 - Seperate default file from saved files
-- add IO commands
 - More commands: combine sprites as one, sprite render order, animate {command}

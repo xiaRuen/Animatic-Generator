@@ -49,8 +49,7 @@ class System {
       printFunc(args);
       break;
     default:
-      logError("Invalid Command: " + msg);
-      println("Invalid Command: " + msg);
+      logError("Unhandled message: " + msg);
     }
   }
 
@@ -90,9 +89,7 @@ class System {
       }
       // if last element
       else {
-        playing = false;
-        instructionIndex = 0;
-        refreshView();
+        endPlay();
       }
       refreshRightPanel();
     }
@@ -114,9 +111,33 @@ class System {
       return;
     }
 
+    Form form;
     switch(args[0]) {
+    case "sprite":
+      form = new UiBooster()
+            .createForm("Sprite")
+            .addSelection(
+                    "Action",
+                    Arrays.asList("Create", "Add", "Remove"))
+            .show();
+      String action = form.getByIndex(0).asString();
+      switch(action){
+        case "Create":
+          handleButtonAction(new String[]{"create"});
+          break;
+        case "Add":
+          handleButtonAction(new String[]{"add"});
+          break;
+        case "Remove":
+          handleButtonAction(new String[]{"remove"});
+          break;
+        default:
+          logError("Unhandled case: action sprite " + action);
+      }
+      
+      break;
     case "create":
-      Form form = new UiBooster()
+      form = new UiBooster()
         .createForm("Create Sprites")
         .addText("Timing")
         .addText("Sprite Name")
@@ -131,7 +152,7 @@ class System {
       }
       catch (Exception e) {
         println(e);
-        new UiBooster().showErrorDialog("Please input a timing in seconds", "Action Now Allowed");
+        new UiBooster().showErrorDialog("Please input a timing in seconds", "Error");
         break;
       }
       String name = form.getByIndex(1).asString();
@@ -157,10 +178,7 @@ class System {
       break;
 
     case "play":
-      instructionIndex = 0;
-      playingOffsetTime = millis() / 1000.0;
-      playing = true;
-      music.play();
+      startPlay();
       break;
 
     case "x":
@@ -189,6 +207,9 @@ class System {
         Toolkit.getDefaultToolkit().beep();
       }
       break;
+    default:
+      logError("Unhandled case: action " + args[0]);
+
     }
   }
 
@@ -198,17 +219,30 @@ class System {
   }
 
   public void logError(String msg) {
-    new UiBooster().showException(
-      msg,
-      "Exception message",
-      new Exception("Something went wrong ...")
-      );
-    println("    ! " + msg);
+    new UiBooster().showErrorDialog(msg, "Error");
   }
 
 
-
   // private methods
+  private void startPlay(){
+    if(playing){
+        endPlay();
+      } else {
+        instructionIndex = 0;
+        playingOffsetTime = millis() / 1000.0;
+        playing = true;
+        music.jump(0);
+      }
+  }
+
+  private void endPlay(){
+    playing = false;
+    instructionIndex = 0;
+    music.pause();
+    sprites.clear();
+    refreshView();
+  }
+
   private void addInstruction(ArrayList<String> line) {
     if(instructions.size() == 0){
       instructions.add(line);
@@ -231,7 +265,6 @@ class System {
     saveInstructions(instructions);
     refreshRightPanel();
   }
-
 
   private void createSprite (String args[]) {
     // Sprite constructor arguments
@@ -464,7 +497,7 @@ class System {
     return null;
   }
 
-  // mouse functions
+  // utils
   private boolean mouseAtButton(Button btn) {
     if (mouseX >= btn.posXPercentage * width
       && mouseX <= btn.posXPercentage * width + btn.widthPercentage * width) {
