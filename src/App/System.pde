@@ -1,8 +1,11 @@
 class System {
-  // lists
+  // flow control
   ArrayList<Button> buttons;
   LinkedList<Sprite> sprites;
+
+  // dynamic vars
   ArrayList<ArrayList<String>> instructions;
+  SoundFile music;
 
   // view control
   private boolean mouseWasPressed;
@@ -15,19 +18,10 @@ class System {
     // Buttons
     buttons = new ArrayList<Button>();
     sprites = new LinkedList<Sprite>();
-    instructions = loadInstructions();
+    instructions = loadInstructions(instructionFilePath);
+    music = loadMusic(musicFilePath);
 
     instructionIndex = 0;
-
-    // check if proper data is retrived from model
-    if (instructions == null) {
-      new UiBooster().showWarningDialog("default files missing, correct instalations?", "Data Corruption!");
-      instructions = new ArrayList<ArrayList<String>>();
-      ArrayList<String> firstLine = new ArrayList<String>();
-      firstLine.add("0");
-      firstLine.add("place holder");
-      instructions.add(firstLine);
-    }
 
     // other control variables
     mouseWasPressed = false;
@@ -166,6 +160,7 @@ class System {
       instructionIndex = 0;
       playingOffsetTime = millis() / 1000.0;
       playing = true;
+      music.play();
       break;
 
     case "x":

@@ -1,14 +1,18 @@
-import org.gicentre.handy.*;
+// sound
+import processing.sound.*;
 
 // ui
+import org.gicentre.handy.*;
 import uibooster.*;
 import uibooster.model.*;
 import uibooster.components.*;
 
+
+// other
+import java.nio.file.*; // for checking paths
 import java.util.*; // for LinkedList
 import java.awt.Toolkit; // for alert()
 import java.util.Arrays; // for Arrays.copyOfRange()
-import java.nio.*; // for buffers
 
 // System variables
 System system;
@@ -17,6 +21,7 @@ boolean playing;
 //defaults
 PShape defaultShape;
 String instructionFilePath;
+String musicFilePath;
 
 // view related
 color themeColor;
@@ -63,6 +68,7 @@ void setup() {
   // defaults
   defaultShape = defaultShape();
   instructionFilePath = dataPath("Instructions.txt");
+  musicFilePath = dataPath("echo.wav");
 
   // view
   themeColor = color(250, 230, 230);

@@ -1,8 +1,7 @@
 // 1. parse by '/n'
 // 2. for each parsed line, parse by ' '
-ArrayList<ArrayList<String>> loadInstructions() {
-
-  String strs[] = loadStrings(dataPath(instructionFilePath));
+ArrayList<ArrayList<String>> loadInstructions(String path) {
+  String strs[] = loadStrings(path);
 
   // if file not found
   if (strs == null) {
@@ -25,4 +24,18 @@ void saveInstructions(ArrayList<ArrayList<String>> instructions){
     }
     saveStrings(instructionFilePath, str);
 
+}
+
+
+SoundFile loadMusic(String path){
+  if(!pathExist(path)){
+    return null;
+  } else {
+    return new SoundFile(app, path);
+  }
+}
+
+
+boolean pathExist(String path){
+  return Files.exists(Paths.get(path));
 }
