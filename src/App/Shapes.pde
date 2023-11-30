@@ -1,7 +1,5 @@
 PShape defaultShape() {
   PShape s;
-
-
   // the only complete compelex shape for this formula is a star
   // x: r*sin(PI*4/5*v+a)
   // y: r*cos(PI*4/5*v+a)
@@ -140,4 +138,40 @@ PShape cpuShape() {
     p.addChild(lines[i]);
   }
   return p;
+}
+
+
+PShape tvBlur() {
+  PShape group = createShape(GROUP);
+  
+  float rectWidth = 10;
+  float rectHeight = 5;
+
+  noStroke();
+
+  // background
+  fill(0);
+  PShape background = createShape(RECT, 0, 0, width, height);
+  group.addChild(background);
+
+  // rects
+  noiseDetail(3, 0.5);
+  for (int i = 0; i < width; i+= rectWidth) {
+    for (int j = 0; j < height; j+= rectHeight) {
+      fill(255 * noise(i + randomGaussian(), j) * random(0.5, 1.5));
+      PShape rect = createShape(RECT, i + rectWidth / 2 * randomGaussian(), j, rectWidth, rectHeight);
+      group.addChild(rect);
+    }
+  }
+
+   // beams
+  for (int y = 0; y < 3; y++) {
+    float greyScale = 200 + 50 * randomGaussian();
+    fill(color(greyScale, greyScale, greyScale, greyScale-50));
+    float h = 30 + 20 * randomGaussian();
+    PShape beam = createShape(RECT, 0, random(height - h), width, h);
+    group.addChild(beam);
+  }
+  
+  return group;
 }

@@ -141,7 +141,7 @@ class System {
         .createForm("Create Sprites")
         .addText("Timing")
         .addText("Sprite Name")
-        .addSelection("Sprite Shape", "default", "cpu")
+        .addSelection("Sprite Shape", "default", "cpu", "tvBlur")
         .addSlider("Position X %", 0, 100, 1, 20, 10)
         .addSlider("Position Y %", 0, 100, 1, 20, 10)
         .show();
@@ -174,7 +174,6 @@ class System {
       line.add(posY.toString());
       
       addInstruction(line);
-
       break;
 
     case "play":
@@ -280,6 +279,9 @@ class System {
     // try load image
     if (args.length > 1 && !args[1].equals("null")) {
       switch(args[1]) {
+      case "tvBlur":
+        spriteShape = tvBlur();
+        break;
       case "cpu":
         spriteShape = cpuShape();
         break;
