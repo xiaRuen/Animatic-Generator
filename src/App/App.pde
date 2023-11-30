@@ -35,10 +35,14 @@ int bottomPanelHeight;
 color rightPannelBackground;
 color bottomPannelBackground;
 
+color shadingColor;
+
 int textSize;
+color textColor;
 PFont textFont;
 
 int buttonSize;
+color buttonColor;
 PFont buttonFont;
 
 int canvasWidth;
@@ -61,8 +65,7 @@ void setup() {
     "Search",
     "Settings",
     "Use Custom Instructions",
-    "Use Custom Music",
-    "Darkmode"
+    "Use Custom Music"
     );
 
   instructionFilePath = dataPath("Instructions.txt"); // default
@@ -93,13 +96,17 @@ void setup() {
   surface.setResizable(true);
 
   // view
-  themeColor = color(250, 230, 230);
+  themeColor = color(23, 24, 25);
   padding = 10;
   
+  shadingColor = (red(themeColor) + green(themeColor) + blue(themeColor)) / 765 > 0.5 ? color(0,0,0) : color(255,255,255);
+
   textSize = 10;
+  textColor = color(shadingColor, 150);
   textFont = createFont(dataPath("fonts/WenHei.ttf"), textSize);
 
   buttonSize = 15;
+  buttonColor = color(shadingColor, 20);
   buttonFont = createFont(dataPath("fonts/WenHei.ttf"), buttonSize);
   
   canvasWidth = 1920;

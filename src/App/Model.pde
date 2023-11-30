@@ -11,7 +11,8 @@ ArrayList<ArrayList<String>> loadInstructions(String path) {
   ArrayList<ArrayList<String>> rVal = new ArrayList<ArrayList<String>>();
   
   for (int i = 0; i < strs.length; i++) {
-    rVal.add(new ArrayList(Arrays.asList(strs[i].split(" "))));
+    if(strs[i].length() != 0)
+      rVal.add(new ArrayList(Arrays.asList(strs[i].split(" "))));
   }
 
   return rVal;

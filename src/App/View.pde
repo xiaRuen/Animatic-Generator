@@ -40,7 +40,7 @@ void createUI() {
   float currentPosX = padding;
   system.buttons.add(new Button(
     "Sprite",
-    color(255),
+    buttonColor,
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth) / width,
@@ -51,7 +51,7 @@ void createUI() {
   currentPosX += buttonWithPadding;
   system.buttons.add(new Button(
     "Lorem",
-    color(255),
+    buttonColor,
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth) / width,
@@ -62,7 +62,7 @@ void createUI() {
   currentPosX += buttonWithPadding;
   system.buttons.add(new Button(
     "Ipsum",
-    color(255),
+    buttonColor,
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth) / width,
@@ -73,7 +73,7 @@ void createUI() {
   currentPosX += buttonWithPadding;
   system.buttons.add(new Button(
     "Play",
-    color(255),
+    buttonColor,
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth) / width,
@@ -85,7 +85,7 @@ void createUI() {
   
   system.buttons.add(new Button(
     "X→",
-    color(255),
+    buttonColor,
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth / 3 - padding/2) / width,
@@ -96,7 +96,7 @@ void createUI() {
   currentPosX += buttonWidth / 3;
   system.buttons.add(new Button(
     "↑",
-    color(255),
+    buttonColor,
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth / 3 - padding/2) / width,
@@ -107,7 +107,7 @@ void createUI() {
   currentPosX += buttonWidth / 3;
    system.buttons.add(new Button(
     "↓",
-    color(255),
+    buttonColor,
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth / 3 - padding/2)  / width,
@@ -139,7 +139,7 @@ void refreshBottomPanel() {
   fill(bottomPannelBackground);
   rect(0, height - bottomPanelHeight, bottomPanelWidth, bottomPanelHeight);
 
-  stroke(0);
+  stroke(shadingColor);
   strokeWeight(0.6);
   line(0, height-bottomPanelHeight, bottomPanelWidth, height-bottomPanelHeight);
 
@@ -153,11 +153,13 @@ void refreshRightPanel() {
   fill(themeColor);
   rect(width - rightPanelWidth, 0, rightPanelWidth, rightPanelHeight);
 
+  // next draw the shade
   noStroke();
   fill(rightPannelBackground);
   rect(width - rightPanelWidth, 0, rightPanelWidth, rightPanelHeight);
 
-  stroke(0);
+  // draw border
+  stroke(shadingColor);
   strokeWeight(0.6);
   line(width - rightPanelWidth, 0, width - rightPanelWidth, rightPanelHeight);
 
@@ -177,11 +179,11 @@ void refreshRightPanel() {
 
       
       if(i == system.instructionIndex){
-        fill(0,0,0,20);
+        fill(shadingColor, 20);
         noStroke();
         rect(panelLeft, currentHeight, textBoxWidth + 2 * padding, textBoxHeight);
       }
-      fill(0, 0, 0, 100);
+      fill(textColor);
       textAlign(LEFT, CENTER);
       text(String.join(" ", line), textBoxLeft, currentHeight, textBoxWidth, textBoxHeight);
 
@@ -211,7 +213,6 @@ public class Button implements UI {
   private color hoveringColor;
   private color clickingColor;
   private color renderColor;
-  private color textColor;
   private boolean hovering;
 
   private HandyRenderer handy;
@@ -226,11 +227,10 @@ public class Button implements UI {
     heightPercentage = hP;
 
     baseColor = c;
-    hoveringColor = lerpColor(baseColor, color(0), 0.05);
-    clickingColor = lerpColor(baseColor, color(0), 0.1);
+    hoveringColor = lerpColor(baseColor, shadingColor, 0.05);
+    clickingColor = lerpColor(baseColor, shadingColor, 0.1);
     renderColor = baseColor;
 
-    textColor = lerpColor(baseColor, color(0), 0.65);
     onClickFunc = func;
 
     handy = new HandyRenderer(app);

@@ -1,3 +1,17 @@
+0 create test tvBlur 0 0
+0.1 create test tvBlur 0 0
+0.2 create test tvBlur 0 0
+0.3 create test tvBlur 0 0
+0.4 create test tvBlur 0 0
+0.5 create test tvBlur 0 0
+0.6 create test tvBlur 0 0
+0.7 create test tvBlur 0 0
+0.8 create test tvBlur 0 0
+0.9 create test tvBlur 0 0
+
+
+1 remove test
+
 1 create s1 default -100 200
 1 create s2 default 500 100
 1 create s3 default 10 500

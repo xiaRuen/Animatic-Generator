@@ -112,21 +112,22 @@ class System {
     }
 
     Form form;
+    ArrayList<String> line = new ArrayList<String>();
     switch(args[0]) {
     case "sprite":
       form = new UiBooster()
             .createForm("Sprite")
             .addSelection(
                     "Action",
-                    Arrays.asList("Create", "Add", "Remove"))
+                    Arrays.asList("Create", "Add Physics", "Remove"))
             .show();
       String action = form.getByIndex(0).asString();
       switch(action){
         case "Create":
           handleButtonAction(new String[]{"create"});
           break;
-        case "Add":
-          handleButtonAction(new String[]{"add"});
+        case "Add Physics":
+          handleButtonAction(new String[]{"addPhysics"});
           break;
         case "Remove":
           handleButtonAction(new String[]{"remove"});
@@ -146,7 +147,6 @@ class System {
         .addSlider("Position Y (px)", 0, canvasHeight, 0, canvasHeight / 3, canvasHeight / 12)
         .show();
 
-      String timeString = form.getByIndex(0).asString();
       try {
         form.getByIndex(0).asFloat();
       }
@@ -155,24 +155,70 @@ class System {
         new UiBooster().showErrorDialog("Please input a timing in seconds", "Error");
         break;
       }
-      String name = form.getByIndex(1).asString();
-      if(name.length() == 0){
-        name = "unnamed";
-      }
-      String shapeString = form.getByIndex(2).asString();
-      Float posX = form.getByIndex(3).asFloat();
-      Float posY = form.getByIndex(4).asFloat();
 
-      
-
-      ArrayList<String> line = new ArrayList<String>();
-      line.add(timeString);
+      line.add(form.getByIndex(0).asString());
       line.add("create");
-      line.add(name);
-      line.add(shapeString);
-      line.add(posX.toString());
-      line.add(posY.toString());
+      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
+      line.add(form.getByIndex(2).asString());
+      line.add(form.getByIndex(3).asString());
+      line.add(form.getByIndex(4).asString());
       
+      addInstruction(line);
+      break;
+
+    case "addPhysics":
+      form = new UiBooster()
+        .createForm("Add Physics")
+        .addText("Timing")
+        .addText("Sprite Name")
+        .addText("Velocity X", "0")
+        .addText("Velocity Y", "0")
+        .addText("Angular Velocity", "0")
+        .addText("Acceleration X", "0")
+        .addText("Acceleration Y", "0")
+        .addText("Angular Acceleration", "0")
+        .show();
+
+      try {
+        form.getByIndex(0).asFloat();
+        for(int i = 2; i < 8; i++){
+          form.getByIndex(i).asFloat();
+        }
+      }
+      catch (Exception e) {
+        println(e);
+        new UiBooster().showErrorDialog("Please enter a valid number", "Error");
+        break;
+      }
+
+      line.add(form.getByIndex(0).asString());
+      line.add("add physics");
+      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
+      for(int i = 2; i < 8; i++){
+        line.add(form.getByIndex(i).asString());
+      }
+      
+      addInstruction(line);
+      break;
+    case "remove":
+      form = new UiBooster()
+        .createForm("Remove Sprites")
+        .addText("Timing")
+        .addText("Sprite Name")
+        .show();
+
+      try {
+        form.getByIndex(0).asFloat();
+      }
+      catch (Exception e) {
+        println(e);
+        new UiBooster().showErrorDialog("Please input a timing in seconds", "Error");
+        break;
+      }
+
+      line.add(form.getByIndex(0).asString());
+      line.add("remove");
+      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
       addInstruction(line);
       break;
 
