@@ -19,13 +19,12 @@ System system;
 boolean playing;
 
 //defaults
-PShape defaultShape;
 String instructionFilePath;
 String musicFilePath;
 
 // view related
 color themeColor;
-int padding = 10;
+int padding;
 
 int rightPanelWidth;
 int rightPanelHeight;
@@ -42,12 +41,15 @@ PFont textFont;
 int buttonSize;
 PFont buttonFont;
 
+int canvasWidth;
+int canvasHeight;
+float canvasScaleX;
+float canvasScaleY;
 
 // other globals
 float previousTime;
 float elapsedTime;
 PApplet app; // to pass into HandyRenderer while inside the Button class
-Sprite screen;
 
 /*
  Every function named render() relates to the render and update of
@@ -90,20 +92,22 @@ void setup() {
   pixelDensity(displayDensity());
   surface.setResizable(true);
 
-  // defaults
-  defaultShape = defaultShape();
-
   // view
   themeColor = color(250, 230, 230);
   padding = 10;
-  updateDynamicViewVars();
+  
   textSize = 10;
   textFont = createFont(dataPath("fonts/WenHei.ttf"), textSize);
+
   buttonSize = 15;
   buttonFont = createFont(dataPath("fonts/WenHei.ttf"), buttonSize);
+  
+  canvasWidth = 1920;
+  canvasHeight = 1080;
 
   system = new System();
 
+  updateDynamicViewVars();
   createUI();
   refreshView();
 
@@ -119,14 +123,20 @@ void draw() {
 
     if (playing) {
       refreshView();
-      system.runSprites();
+
+      pushMatrix();
+      scale(canvasScaleX, canvasScaleY);
+      system.runSprites(); // draw sprites
+      popMatrix();
 
       fill(color(0, 0, 0, 150));
       textFont(textFont);
       textAlign(LEFT, BOTTOM);
       text("Time: " + (millis() / 1000.0 - system.playingOffsetTime), padding, height - bottomPanelHeight);
 
-      system.runInstructions();
+      system.runInstructions(); // update instructions
+
+      
     }
     system.runView();
   }

@@ -142,8 +142,8 @@ class System {
         .addText("Timing")
         .addText("Sprite Name")
         .addSelection("Sprite Shape", "default", "cpu", "tvBlur")
-        .addSlider("Position X %", 0, 100, 1, 20, 10)
-        .addSlider("Position Y %", 0, 100, 1, 20, 10)
+        .addSlider("Position X (px)", 0, canvasWidth, 0, canvasWidth / 3, canvasWidth / 12)
+        .addSlider("Position Y (px)", 0, canvasHeight, 0, canvasHeight / 3, canvasHeight / 12)
         .show();
 
       String timeString = form.getByIndex(0).asString();
@@ -160,8 +160,8 @@ class System {
         name = "unnamed";
       }
       String shapeString = form.getByIndex(2).asString();
-      Float posX = form.getByIndex(3).asFloat() / 100.0 * width;
-      Float posY = form.getByIndex(4).asFloat() / 100.0 * height;
+      Float posX = form.getByIndex(3).asFloat();
+      Float posY = form.getByIndex(4).asFloat();
 
       
 
@@ -286,14 +286,14 @@ class System {
         spriteShape = cpuShape();
         break;
       case "default":
-        spriteShape = defaultShape;
+        spriteShape = defaultShape();
         break;
       default:
         logError("not a valid shape, using defaultshape instead");
-        spriteShape = defaultShape;
+        spriteShape = defaultShape();
       }
     } else {
-      spriteShape = defaultShape;
+      spriteShape = defaultShape();
     }
 
     // try parsing string to float

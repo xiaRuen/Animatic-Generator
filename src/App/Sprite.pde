@@ -48,8 +48,7 @@ class Sprite {
     translate(pos.x, pos.y);
     rotate(rad);
     // draw
-    shape(spriteShape, 0, 0);
-    fill(0);
+    shape(spriteShape);
 
     popMatrix();
   }

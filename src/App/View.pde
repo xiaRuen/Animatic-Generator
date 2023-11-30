@@ -23,6 +23,9 @@ void updateDynamicViewVars() {
 
   rightPannelBackground = color(0, 0, 0, 5);
   bottomPannelBackground = color(0, 0, 0, 10);
+
+  canvasScaleX = float(width - rightPanelWidth) / width;
+  canvasScaleY = float(height - bottomPanelHeight) / height;
 }
 
 
