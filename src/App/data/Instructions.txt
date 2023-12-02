@@ -1,4 +1,3 @@
-0 create test tvBlur 0 0
 0.1 create test tvBlur 0 0
 0.2 create test tvBlur 0 0
 0.3 create test tvBlur 0 0
@@ -15,7 +14,8 @@
 1 add physics s1 100 -100 5 0 100
 1 add physics s2 -100 -100 0 0 100 2
 1 add physics s3 100 -400 60 0 200 -30
-1.5 add effect s2 scale 3 1 3
+2 add effect s3 scale 2 1 2
+2 add effect s3 color 3 83.0 83.0 219.0 32.0 219.0 69.0
 5 remove s1
 5 remove s2
 5 remove s3

@@ -119,7 +119,7 @@ class System {
             .createForm("Sprite")
             .addSelection(
                     "Action",
-                    Arrays.asList("Create", "Add Physics", "Add Effect Scale","Remove"))
+                    Arrays.asList("Create", "Add Physics", "Add Effect Scale", "Add Effect Color","Remove"))
             .show();
       String action = form.getByIndex(0).asString();
       switch(action){
@@ -131,6 +131,9 @@ class System {
           break;
         case "Add Effect Scale":
           handleButtonAction(new String[]{"addEffectScale"});
+          break;
+        case "Add Effect Color":
+          handleButtonAction(new String[]{"addEffectColor"});
           break;
         case "Remove":
           handleButtonAction(new String[]{"remove"});
@@ -232,6 +235,42 @@ class System {
       for(int i = 2; i < 5; i++){
         line.add(form.getByIndex(i).asString());
       }
+      
+      addInstruction(line);
+      break;
+    case "addEffectColor":
+      form = new UiBooster()
+        .createForm("Add Color Animation")
+        .addText("Timing")
+        .addText("Sprite Name")
+        .addText("Duration", "1")
+        .addColorPicker("Initial Color")
+        .addColorPicker("End Color")
+        .show();
+
+      try {
+        form.getByIndex(0).asFloat();
+        form.getByIndex(2).asFloat();
+      }
+      catch (Exception e) {
+        println(e);
+        new UiBooster().showErrorDialog("Please enter a valid number", "Error");
+        break;
+      }
+
+      line.add(form.getByIndex(0).asString());
+      line.add("add effect");
+      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
+      line.add("color");
+      line.add(form.getByIndex(2).asString());
+      color initial = form.getByIndex(3).asColor().getRGB();
+      color end = form.getByIndex(4).asColor().getRGB();
+      line.add("" + red(initial));
+      line.add("" + green(initial));
+      line.add("" + blue(initial));
+      line.add("" + red(end));
+      line.add("" + green(end));
+      line.add("" + blue(end));
       
       addInstruction(line);
       break;
@@ -446,10 +485,6 @@ class System {
       logError("Invalid sprite name");
       return;
     }
-    if (sprite.effect != null) {
-      logError("Sprite " + args[0] + " has an existing effect already");
-      return;
-    }
 
     // default: fade black one second
 
@@ -458,19 +493,24 @@ class System {
     case "scale":
       type = 1;
       break;
+    case "color":
+      type = 2;
+      break;
     default:
       logError("Invalid effect type");
       return;
     }
     float duration = params.length > 0 ? params[0] : 1;
-    float vec4[] = {
+    float vec6[] = {
       params.length > 1 ? params[1] : 1,
       params.length > 2 ? params[2] : 1,
       params.length > 3 ? params[3] : 1,
-      params.length > 4 ? params[4] : 1
+      params.length > 4 ? params[4] : 1,
+      params.length > 5 ? params[5] : 1,
+      params.length > 6 ? params[6] : 1
     };
-    logMessage("Added Effect to " + sprite.name);
-    sprite.effect = new Effect(sprite, type, duration, vec4);
+    logMessage("Added Effect " + args[1] + " to " + sprite.name);
+    sprite.effects.add(new Effect(sprite, type, duration, vec6));
   }
 
   private void addPhyisics(String args[]) {

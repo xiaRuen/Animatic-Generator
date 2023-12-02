@@ -16,13 +16,14 @@ class Sprite {
 
   // Components
   Phyiscs phyiscs;
-  Effect effect;
+  ArrayList<Effect> effects;
 
   Sprite(String name, PShape spriteShape, float posX, float posY, float rad) {
     this.name = name;
     this.spriteShape = spriteShape;
     this.pos = new PVector(posX, posY);
     this.rad = rad;
+    effects = new ArrayList<Effect>();
   }
 
 
@@ -39,13 +40,18 @@ class Sprite {
     rotate(rad);
 
     // effect
-     if (effect != null) {
-      if (millis() / 1000.0 - effect.birthTime > effect.duration) {
+    if (effects.size() != 0) {
+      for(int i = 0; i < effects.size(); i++){
+        Effect effect = effects.get(i);
+        if (millis() / 1000.0 - effect.birthTime > effect.duration) {
         system.logMessage("Effect is removed for sprite " + name);
-        effect = null;
+        effects.remove(i);
+        i--; // don't skip an effect due to deletion
       } else {
         effect.apply();
       }
+      }
+      
     }
     shape(spriteShape);
 
@@ -59,7 +65,7 @@ class Phyiscs {
 
   private PVector vel; //velocity
   private PVector acc; //acceleration
-  
+
   // angluar equivelants
   private float aVel;
   private float aAcc;
@@ -96,39 +102,46 @@ class Phyiscs {
 }
 
 
-/* 
-  A component for the Sprite class, where it is called inside Sprite::render
-
-  vec4 params:
-    Scale: initial scale, end scale
-*/
+/*
+ A component for the Sprite class, where it is called inside Sprite::render
+ 
+ vec4 params:
+ Scale: initial scale, end scale
+ */
 class Effect {
   Sprite sprite;
   int type;
   float duration;
-  float vec4[];
+  float params[];
 
   float birthTime;
 
-  Effect(Sprite sprite, int type, float duration, float vec4[]) {
+  // it is the system's job to ensure that all required params are provided
+  Effect(Sprite sprite, int type, float duration, float params[]) {
     this.sprite = sprite;
     this.type = type;
     this.duration = duration;
-    this.vec4 = vec4;
+    this.params = params;
 
     birthTime = millis() / 1000.0;
   }
 
-  void apply(){
+  void apply() {
     float lerpFactor = (millis() / 1000.0 - birthTime) / duration;
-    
-    switch(type){
+
+    switch(type) {
     case 1:
       // scale
-       scale(lerp(vec4[0],vec4[1],lerpFactor));  
-    break;
+      scale(lerp(params[0], params[1], lerpFactor));
+      break;
+    case 2:
+      // color
+      color c = lerpColor(
+        color(params[0], params[1], params[2]),
+        color(params[3], params[4], params[5]),
+        lerpFactor);
+      sprite.spriteShape.setFill(c);
+      break;
+    }
   }
-
-  }
-  
 }
