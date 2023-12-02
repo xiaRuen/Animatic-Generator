@@ -13,8 +13,8 @@ Format: create {nameOfSprites} {spriteSourceImg} [positionX]
 Input: create sampleSprite imagePath.png 
 
 
-create [nameOfSprites] [spriteSourceImg] [positionX] [positionY] [angle] 
-    - creates a new sprite with physics properties to animate
+create [nameOfSprites] [spriteShape] [positionX] [positionY] [angle] 
+    - creates a new sprite to animate
 
 add 
     physics {spriteName} [velocityX] [velocityY] [angularVelocity] 
@@ -22,11 +22,7 @@ add
         - adds a physics system to animate the sprite
         - []: float
     effect {spriteName}
-        flash [duration] [red] [green] [blue] [alpha]
-            - [red] the red component of a rgba targetColor to flash
-            - [alpha] 0 for transparent
-        pixelate [duration] [percentage]
-            - [percentage] 0.1 for pixelating every 10% of texture
+        scale {duration} {initialScale} [endScale]
 
 
 remove {spriteName}

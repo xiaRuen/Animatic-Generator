@@ -420,14 +420,8 @@ class System {
 
     int type;
     switch(args[1]) {
-    case "flash":
+    case "scale":
       type = 1;
-      break;
-    case "flashInvert":
-      type = 2;
-      break;
-    case "pixelate":
-      type = 3;
       break;
     default:
       logError("Invalid effect type");
@@ -435,13 +429,13 @@ class System {
     }
     float duration = params.length > 0 ? params[0] : 1;
     float vec4[] = {
-      params.length > 1 ? params[1] : 0,
-      params.length > 2 ? params[2] : 0,
-      params.length > 3 ? params[3] : 0,
+      params.length > 1 ? params[1] : 1,
+      params.length > 2 ? params[2] : 1,
+      params.length > 3 ? params[3] : 1,
       params.length > 4 ? params[4] : 1
     };
     logMessage("Added Effect to " + sprite.name);
-    sprite.effect = new Effect(type, duration, vec4);
+    sprite.effect = new Effect(sprite, type, duration, vec4);
   }
 
   private void addPhyisics(String args[]) {
@@ -498,7 +492,7 @@ class System {
     Float aAcc = params.length > 5 ? params[5] : null;
 
     if (acc == null) {
-      sprite.phyiscs = new Phyiscs(vel, aVel);
+      sprite.phyiscs = new Phyiscs(sprite, vel, aVel);
       logMessage("Succesful Creation of " + args[0] + " phyiscs system with dy/dx of one");
       return;
     } else if (aAcc == null) {
@@ -506,7 +500,7 @@ class System {
     }
 
     // the third derivative of position, jerk, is not supported
-    sprite.phyiscs = new Phyiscs(vel, aVel, acc, aAcc);
+    sprite.phyiscs = new Phyiscs(sprite, vel, aVel, acc, aAcc);
     logMessage("Succesful Creation of " + args[0] + " phyiscs system with dy/dx of two");
   }
 
