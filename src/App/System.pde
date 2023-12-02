@@ -119,7 +119,7 @@ class System {
             .createForm("Sprite")
             .addSelection(
                     "Action",
-                    Arrays.asList("Create", "Add Physics", "Remove"))
+                    Arrays.asList("Create", "Add Physics", "Add Effect Scale","Remove"))
             .show();
       String action = form.getByIndex(0).asString();
       switch(action){
@@ -128,6 +128,9 @@ class System {
           break;
         case "Add Physics":
           handleButtonAction(new String[]{"addPhysics"});
+          break;
+        case "Add Effect Scale":
+          handleButtonAction(new String[]{"addEffectScale"});
           break;
         case "Remove":
           handleButtonAction(new String[]{"remove"});
@@ -195,6 +198,38 @@ class System {
       line.add("add physics");
       line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
       for(int i = 2; i < 8; i++){
+        line.add(form.getByIndex(i).asString());
+      }
+      
+      addInstruction(line);
+      break;
+    case "addEffectScale":
+      form = new UiBooster()
+        .createForm("Add Scale Animation")
+        .addText("Timing")
+        .addText("Sprite Name")
+        .addText("Duration", "1")
+        .addText("Initial Scale", "1")
+        .addText("End Scale", "1")
+        .show();
+
+      try {
+        form.getByIndex(0).asFloat();
+        for(int i = 2; i < 5; i++){
+          form.getByIndex(i).asFloat();
+        }
+      }
+      catch (Exception e) {
+        println(e);
+        new UiBooster().showErrorDialog("Please enter a valid number", "Error");
+        break;
+      }
+
+      line.add(form.getByIndex(0).asString());
+      line.add("add effect");
+      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
+      line.add("scale");
+      for(int i = 2; i < 5; i++){
         line.add(form.getByIndex(i).asString());
       }
       

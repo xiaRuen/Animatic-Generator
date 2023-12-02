@@ -78,7 +78,7 @@ void setup() {
 
   musicFilePath = dataPath("echo.wav");
   if(multiSelect.contains("Use Custom Music")){
-    File f = new UiBooster().showFileSelection(".wav","wav");
+    File f = new UiBooster().showFileSelection(".wav","wav"); // processing will throw error on .mp4
     if(f != null){
       musicFilePath = f.getPath();
     }
@@ -96,7 +96,7 @@ void setup() {
   surface.setResizable(true);
 
   // view
-  themeColor = color(23, 24, 25);
+  themeColor = color(30, 40, 50);
   padding = 10;
   
   shadingColor = (red(themeColor) + green(themeColor) + blue(themeColor)) / 765 > 0.5 ? color(0,0,0) : color(255,255,255);
@@ -136,7 +136,7 @@ void draw() {
       system.runSprites(); // draw sprites
       popMatrix();
 
-      fill(color(0, 0, 0, 150));
+      fill(textColor);
       textFont(textFont);
       textAlign(LEFT, BOTTOM);
       text("Time: " + (millis() / 1000.0 - system.playingOffsetTime), padding, height - bottomPanelHeight);
