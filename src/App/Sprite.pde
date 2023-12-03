@@ -43,7 +43,7 @@ class Sprite {
     if (effects.size() != 0) {
       for(int i = 0; i < effects.size(); i++){
         Effect effect = effects.get(i);
-        if (millis() / 1000.0 - effect.birthTime > effect.duration) {
+        if (effect.duration != -1 && millis() / 1000.0 - effect.birthTime > effect.duration) {
         system.logMessage("Effect is removed for sprite " + name);
         effects.remove(i);
         i--; // don't skip an effect due to deletion
@@ -132,7 +132,13 @@ class Effect {
   }
 
   void apply() {
-    float lerpFactor = (millis() / 1000.0 - birthTime) / duration;
+    float lerpFactor;
+    if(duration != -1){
+      lerpFactor = (millis() / 1000.0 - birthTime) / duration;
+    } else {
+      lerpFactor = 0;
+    }
+    
 
     switch(type) {
     case 1:

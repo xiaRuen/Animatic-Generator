@@ -1,8 +1,5 @@
 /*
 This is where all the UI adjustments happen.
- 
- !!!!!! all positions are relative (percentage) !!!!!!
- 
  */
 interface UI {
   public void noInteration(); // when totally no mouse event have to do with the UI

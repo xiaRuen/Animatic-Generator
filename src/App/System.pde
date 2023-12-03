@@ -223,7 +223,7 @@ class System {
         .createForm("Add Scale Animation")
         .addText("Timing")
         .addText("Sprite Name")
-        .addText("Duration", "1")
+        .addText("Duration (-1 for infinity)", "1")
         .addText("Initial Scale", "1")
         .addText("End Scale", "1")
         .show();
@@ -255,7 +255,7 @@ class System {
         .createForm("Add Color Animation")
         .addText("Timing")
         .addText("Sprite Name")
-        .addText("Duration", "1")
+        .addText("Duration (-1 for infinity)", "1")
         .addColorPicker("Initial Color")
         .addColorPicker("End Color")
         .show();
