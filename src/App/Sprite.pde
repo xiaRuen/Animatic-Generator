@@ -53,7 +53,12 @@ class Sprite {
       }
       
     }
-    shape(spriteShape);
+    if(spriteShape != null){
+      shape(spriteShape);
+    } else {
+      text(name, 0, 0);
+    }
+
 
     popMatrix();
   }

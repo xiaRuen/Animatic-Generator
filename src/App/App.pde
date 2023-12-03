@@ -69,7 +69,7 @@ void setup() {
   musicFilePath = dataPath("echo.wav");
 
   // initialize main window
-  size(600, 400);
+  size(800, 400);
   //fullScreen(P2D);
   pixelDensity(displayDensity());
   surface.setResizable(true);

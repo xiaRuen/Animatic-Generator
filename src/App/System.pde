@@ -61,7 +61,6 @@ class System {
   // for App
   public void runView() {
     if (!mouseWasPressed) {
-      // e for element
       buttons.forEach((btn) -> {
         if (mouseAtButton(btn)) {
           if (mousePressed) {
@@ -161,7 +160,7 @@ class System {
         .createForm("Create Sprites")
         .addText("Timing")
         .addText("Sprite Name")
-        .addSelection("Sprite Shape", "default", "cpu", "tvBlur")
+        .addSelection("Sprite Shape", "nameAsText", "default", "cpu", "tvBlur")
         .addSlider("Position X (px)", 0, canvasWidth, 0, canvasWidth / 3, canvasWidth / 12)
         .addSlider("Position Y (px)", 0, canvasHeight, 0, canvasHeight / 3, canvasHeight / 12)
         .show();
@@ -453,6 +452,9 @@ class System {
     // try load image
     if (args.length > 1 && !args[1].equals("null")) {
       switch(args[1]) {
+      case "nameAsText":
+        spriteShape = null;
+        break;
       case "tvBlur":
         spriteShape = tvBlur();
         break;
