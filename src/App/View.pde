@@ -21,8 +21,8 @@ void updateDynamicViewVars() {
   bottomPanelWidth = width - rightPanelWidth;
   bottomPanelHeight = height / 8;
 
-  rightPannelBackground = color(0, 0, 0, 5);
-  bottomPannelBackground = color(0, 0, 0, 10);
+  rightPannelBackground = lerpColor(themeColor, shadingColor, 0.05);
+  bottomPannelBackground =  lerpColor(themeColor, shadingColor, 0.08);
 
   canvasScaleX = float(width - rightPanelWidth) / width;
   canvasScaleY = float(height - bottomPanelHeight) / height;
@@ -50,13 +50,13 @@ void createUI() {
 
   currentPosX += buttonWithPadding;
   system.buttons.add(new Button(
-    "Lorem",
+    "Particles",
     buttonColor,
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth) / width,
     (buttonHeight) / height,
-    () -> system.handleMessage("")
+    () -> system.handleMessage("action particles")
     ));
 
   currentPosX += buttonWithPadding;

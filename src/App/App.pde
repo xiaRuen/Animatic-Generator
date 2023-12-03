@@ -129,11 +129,14 @@ void draw() {
     previousTime = time;
 
     if (playing) {
-      refreshView();
+      background(themeColor);
 
       pushMatrix();
       scale(canvasScaleX, canvasScaleY);
+
+      system.runParticles(); // draw particles
       system.runSprites(); // draw sprites
+
       popMatrix();
 
       fill(textColor);
@@ -142,6 +145,9 @@ void draw() {
       text("Time: " + (millis() / 1000.0 - system.playingOffsetTime), padding, height - bottomPanelHeight);
 
       system.runInstructions(); // update instructions
+
+      refreshBottomPanel();
+      refreshRightPanel();
 
       
     }

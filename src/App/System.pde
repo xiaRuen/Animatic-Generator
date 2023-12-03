@@ -2,6 +2,7 @@ class System {
   // flow control
   ArrayList<Button> buttons;
   LinkedList<Sprite> sprites;
+  ParticleSystem particleSystem;
 
   // dynamic vars
   ArrayList<ArrayList<String>> instructions;
@@ -44,6 +45,10 @@ class System {
       break;
     case "remove":
       deleteSprite(args);
+      break;
+    case "particles":
+      particleSystem = new ParticleSystem();
+      
       break;
     case "print":
       printFunc(args);
@@ -101,6 +106,17 @@ class System {
     while (list_Iter.hasNext()) {
       Sprite s = Sprite.class.cast(list_Iter.next());
       s.render();
+    }
+  }
+
+  public void runParticles(){
+    if(particleSystem != null){
+      if(particleSystem.birthTime + particleSystem.duration < millis() / 1000.0){
+        particleSystem = null;
+      } else {
+        particleSystem.run();
+      }
+      
     }
   }
 
@@ -296,6 +312,25 @@ class System {
       addInstruction(line);
       break;
 
+    case "particles":
+      form = new UiBooster()
+        .createForm("Particle System")
+        .addText("Timing")
+        .show();
+
+      try {
+        form.getByIndex(0).asFloat();
+      }
+      catch (Exception e) {
+        println(e);
+        new UiBooster().showErrorDialog("Please input a timing in seconds", "Error");
+        break;
+      }
+
+      line.add(form.getByIndex(0).asString());
+      line.add("particles");
+      addInstruction(line);
+      break;
     case "play":
       startPlay();
       break;
@@ -359,6 +394,7 @@ class System {
     instructionIndex = 0;
     music.pause();
     sprites.clear();
+    particleSystem = null;
     refreshView();
   }
 
