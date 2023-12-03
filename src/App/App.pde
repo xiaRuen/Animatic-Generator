@@ -60,34 +60,13 @@ PApplet app; // to pass into HandyRenderer while inside the Button class
  itself, and is called externally, typically the System class.
  */
 void setup() {
-  // Initial Settings
-  List<String> multiSelect = new UiBooster().showMultipleSelection(
-    "Search",
-    "Settings",
-    "Use Custom Instructions",
-    "Use Custom Music"
-    );
-
-  instructionFilePath = dataPath("Instructions.txt"); // default
-  if(multiSelect.contains("Use Custom Instructions")){
-    File f = new UiBooster().showFileSelection(".txt","txt");
-    if(f != null){ // if the user canceled the file selection popup
-      instructionFilePath = f.getPath();
-    }
-  }
-
-  musicFilePath = dataPath("echo.wav");
-  if(multiSelect.contains("Use Custom Music")){
-    File f = new UiBooster().showFileSelection(".wav","wav"); // processing will throw error on .mp4
-    if(f != null){
-      musicFilePath = f.getPath();
-    }
-  }
-
   // initialize globals
   app = this;
   previousTime = millis() / 1000;
   playing = false;
+
+  instructionFilePath = dataPath("Instructions.txt"); // default
+  musicFilePath = dataPath("echo.wav");
 
   // initialize main window
   size(600, 400);

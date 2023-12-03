@@ -61,13 +61,13 @@ void createUI() {
 
   currentPosX += buttonWithPadding;
   system.buttons.add(new Button(
-    "Ipsum",
+    "Settings",
     buttonColor,
     (currentPosX) / width,
     (topOffset) / height,
     (buttonWidth) / width,
     (buttonHeight) / height,
-    () -> system.handleMessage("")
+    () -> system.handleMessage("action settings")
     ));
 
   currentPosX += buttonWithPadding;

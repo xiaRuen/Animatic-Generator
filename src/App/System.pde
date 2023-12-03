@@ -48,7 +48,7 @@ class System {
       break;
     case "particles":
       particleSystem = new ParticleSystem();
-      
+
       break;
     case "print":
       printFunc(args);
@@ -85,12 +85,11 @@ class System {
 
   public void runInstructions() {
     // if the time is there
-    if(Float.parseFloat(instructions.get(instructionIndex).get(0)) + playingOffsetTime < millis() / 1000.0){
+    if (Float.parseFloat(instructions.get(instructionIndex).get(0)) + playingOffsetTime < millis() / 1000.0) {
       ArrayList<String> msg = new ArrayList<String>(instructions.get(instructionIndex));
       msg.remove(0);
       handleMessage(String.join(" ", msg));
-      if(++instructionIndex < instructions.size()){
-         
+      if (++instructionIndex < instructions.size()) {
       }
       // if last element
       else {
@@ -98,7 +97,6 @@ class System {
       }
       refreshRightPanel();
     }
-
   }
 
   public void runSprites() {
@@ -109,14 +107,13 @@ class System {
     }
   }
 
-  public void runParticles(){
-    if(particleSystem != null){
-      if(particleSystem.birthTime + particleSystem.duration < millis() / 1000.0){
+  public void runParticles() {
+    if (particleSystem != null) {
+      if (particleSystem.birthTime + particleSystem.duration < millis() / 1000.0) {
         particleSystem = null;
       } else {
         particleSystem.run();
       }
-      
     }
   }
 
@@ -132,32 +129,32 @@ class System {
     switch(args[0]) {
     case "sprite":
       form = new UiBooster()
-            .createForm("Sprite")
-            .addSelection(
-                    "Action",
-                    Arrays.asList("Create", "Add Physics", "Add Effect Scale", "Add Effect Color","Remove"))
-            .show();
+        .createForm("Sprite")
+        .addSelection(
+        "Action",
+        Arrays.asList("Create", "Add Physics", "Add Effect Scale", "Add Effect Color", "Remove"))
+        .show();
       String action = form.getByIndex(0).asString();
-      switch(action){
-        case "Create":
-          handleButtonAction(new String[]{"create"});
-          break;
-        case "Add Physics":
-          handleButtonAction(new String[]{"addPhysics"});
-          break;
-        case "Add Effect Scale":
-          handleButtonAction(new String[]{"addEffectScale"});
-          break;
-        case "Add Effect Color":
-          handleButtonAction(new String[]{"addEffectColor"});
-          break;
-        case "Remove":
-          handleButtonAction(new String[]{"remove"});
-          break;
-        default:
-          logError("Unhandled case: action sprite " + action);
+      switch(action) {
+      case "Create":
+        handleButtonAction(new String[]{"create"});
+        break;
+      case "Add Physics":
+        handleButtonAction(new String[]{"addPhysics"});
+        break;
+      case "Add Effect Scale":
+        handleButtonAction(new String[]{"addEffectScale"});
+        break;
+      case "Add Effect Color":
+        handleButtonAction(new String[]{"addEffectColor"});
+        break;
+      case "Remove":
+        handleButtonAction(new String[]{"remove"});
+        break;
+      default:
+        logError("Unhandled case: action sprite " + action);
       }
-      
+
       break;
     case "create":
       form = new UiBooster()
@@ -184,7 +181,7 @@ class System {
       line.add(form.getByIndex(2).asString());
       line.add(form.getByIndex(3).asString());
       line.add(form.getByIndex(4).asString());
-      
+
       addInstruction(line);
       break;
 
@@ -203,7 +200,7 @@ class System {
 
       try {
         form.getByIndex(0).asFloat();
-        for(int i = 2; i < 8; i++){
+        for (int i = 2; i < 8; i++) {
           form.getByIndex(i).asFloat();
         }
       }
@@ -216,10 +213,10 @@ class System {
       line.add(form.getByIndex(0).asString());
       line.add("add physics");
       line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
-      for(int i = 2; i < 8; i++){
+      for (int i = 2; i < 8; i++) {
         line.add(form.getByIndex(i).asString());
       }
-      
+
       addInstruction(line);
       break;
     case "addEffectScale":
@@ -234,7 +231,7 @@ class System {
 
       try {
         form.getByIndex(0).asFloat();
-        for(int i = 2; i < 5; i++){
+        for (int i = 2; i < 5; i++) {
           form.getByIndex(i).asFloat();
         }
       }
@@ -248,10 +245,10 @@ class System {
       line.add("add effect");
       line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
       line.add("scale");
-      for(int i = 2; i < 5; i++){
+      for (int i = 2; i < 5; i++) {
         line.add(form.getByIndex(i).asString());
       }
-      
+
       addInstruction(line);
       break;
     case "addEffectColor":
@@ -287,7 +284,7 @@ class System {
       line.add("" + red(end));
       line.add("" + green(end));
       line.add("" + blue(end));
-      
+
       addInstruction(line);
       break;
     case "remove":
@@ -331,12 +328,34 @@ class System {
       line.add("particles");
       addInstruction(line);
       break;
+    case "settings":
+      List<String> multiSelect = new UiBooster().showMultipleSelection(
+        "Search",
+        "Settings",
+        "Use Custom Instructions",
+        "Use Custom Music"
+        );
+
+      if (multiSelect.contains("Use Custom Instructions")) {
+        File f = new UiBooster().showFileSelection(".txt", "txt");
+        if (f != null) { // if the user canceled the file selection popup
+          instructionFilePath = f.getPath();
+        }
+      }
+
+      if (multiSelect.contains("Use Custom Music")) {
+        File f = new UiBooster().showFileSelection(".wav", "wav"); // processing will throw error on .mp4
+        if (f != null) {
+          musicFilePath = f.getPath();
+        }
+      }
+      break;
     case "play":
       startPlay();
       break;
 
     case "x":
-      if(instructionIndex == -1){
+      if (instructionIndex == -1) {
         Toolkit.getDefaultToolkit().beep();
         break;
       }
@@ -363,7 +382,6 @@ class System {
       break;
     default:
       logError("Unhandled case: action " + args[0]);
-
     }
   }
 
@@ -378,18 +396,18 @@ class System {
 
 
   // private methods
-  private void startPlay(){
-    if(playing){
-        endPlay();
-      } else {
-        instructionIndex = 0;
-        playingOffsetTime = millis() / 1000.0;
-        playing = true;
-        music.jump(0);
-      }
+  private void startPlay() {
+    if (playing) {
+      endPlay();
+    } else {
+      instructionIndex = 0;
+      playingOffsetTime = millis() / 1000.0;
+      playing = true;
+      music.jump(0);
+    }
   }
 
-  private void endPlay(){
+  private void endPlay() {
     playing = false;
     instructionIndex = 0;
     music.pause();
@@ -399,7 +417,7 @@ class System {
   }
 
   private void addInstruction(ArrayList<String> line) {
-    if(instructions.size() == 0){
+    if (instructions.size() == 0) {
       instructions.add(line);
       instructionIndex = 0;
       saveInstructions(instructions);
@@ -409,12 +427,12 @@ class System {
 
     float time = Float.parseFloat(line.get(0));
     int i = 0;
-    while(Float.parseFloat(instructions.get(i).get(0)) < time){
-      if(++i == instructions.size()) break;
+    while (Float.parseFloat(instructions.get(i).get(0)) < time) {
+      if (++i == instructions.size()) break;
     }
-    if(i == instructions.size()){
+    if (i == instructions.size()) {
       instructions.add(line);
-    } else{
+    } else {
       instructions.add(i, line);
     }
     saveInstructions(instructions);
