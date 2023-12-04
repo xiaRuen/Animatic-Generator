@@ -72,7 +72,7 @@ class Sprite {
       if(renderColor != color(4,0,4)){
         fill(renderColor);
       }
-      text(name, 0, 0);
+      text(name.replace('_', ' '), 0, 0);
     }
 
 

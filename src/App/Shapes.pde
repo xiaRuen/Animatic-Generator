@@ -278,6 +278,7 @@ PShape building(){
     building.addChild(b[i]);
   }
   
+  rectMode(CORNER);
   return building;
 }
 

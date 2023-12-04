@@ -177,7 +177,7 @@ class System {
 
       line.add(form.getByIndex(0).asString());
       line.add("create");
-      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
+      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString().replace(' ', '_'));
       line.add(form.getByIndex(2).asString());
       line.add(form.getByIndex(3).asString());
       line.add(form.getByIndex(4).asString());
@@ -212,7 +212,7 @@ class System {
 
       line.add(form.getByIndex(0).asString());
       line.add("add physics");
-      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
+      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString().replace(' ', '_'));
       for (int i = 2; i < 8; i++) {
         line.add(form.getByIndex(i).asString());
       }
@@ -243,7 +243,7 @@ class System {
 
       line.add(form.getByIndex(0).asString());
       line.add("add effect");
-      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
+      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString().replace(' ', '_'));
       line.add("scale");
       for (int i = 2; i < 5; i++) {
         line.add(form.getByIndex(i).asString());
@@ -273,7 +273,7 @@ class System {
 
       line.add(form.getByIndex(0).asString());
       line.add("add effect");
-      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
+      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString().replace(' ', '_'));
       line.add("color");
       line.add(form.getByIndex(2).asString());
       color initial = form.getByIndex(3).asColor().getRGB();
@@ -305,7 +305,7 @@ class System {
 
       line.add(form.getByIndex(0).asString());
       line.add("remove");
-      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString());
+      line.add(form.getByIndex(1).asString().length() == 0 ? "unnamed" : form.getByIndex(1).asString().replace(' ', '_'));
       addInstruction(line);
       break;
 
