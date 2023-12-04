@@ -13,7 +13,7 @@ Format: create {nameOfSprites} {spriteSourceImg} [positionX]
 Input: create sampleSprite imagePath.png 
 
 
-create [nameOfSprites] [spriteShape] [positionX] [positionY] [angle] 
+create [nameOfSprites] [spriteShape] [positionX] [positionY] [radian] 
     - creates a new sprite to animate
 
 add 
@@ -22,12 +22,19 @@ add
         - adds a physics system to animate the sprite
         - []: float
     effect {spriteName}
+        - if duration is -1, the sprite will infinetly scaled by
+            the first set of paramaters
         scale {duration} {initialScale} [endScale]
+        color {duration} {color1} [color2]
+
 
 
 remove {spriteName}
     - deletes the sprite(s) with the name
 
+particles
+    - creates a particle system. Parameters are in PApplet.ParticleSystem
+
 print
-    {spriteNames}
+    spriteNames
         - prints the names of all current sprites
