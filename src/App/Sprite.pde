@@ -14,6 +14,10 @@ class Sprite {
   private PVector pos;
   private Float rad;
 
+  // for effect
+  private float scaleFactor;
+  private color renderColor;
+
   // Components
   Phyiscs phyiscs;
   ArrayList<Effect> effects;
@@ -24,6 +28,10 @@ class Sprite {
     this.pos = new PVector(posX, posY);
     this.rad = rad;
     effects = new ArrayList<Effect>();
+
+    scaleFactor = 1;
+    renderColor = color(4,0,4); // some magic value
+
   }
 
 
@@ -54,8 +62,16 @@ class Sprite {
       
     }
     if(spriteShape != null){
+      scale(scaleFactor);
+      if(renderColor != color(4,0,4)){
+        spriteShape.setFill(renderColor);
+      }
       shape(spriteShape);
     } else {
+      textSize(10 * scaleFactor);
+      if(renderColor != color(4,0,4)){
+        fill(renderColor);
+      }
       text(name, 0, 0);
     }
 
@@ -143,15 +159,14 @@ class Effect {
     switch(type) {
     case 1:
       // scale
-      scale(lerp(params[0], params[1], lerpFactor));
+      sprite.scaleFactor = (lerp(params[0], params[1], lerpFactor));
       break;
     case 2:
       // color
-      color c = lerpColor(
+      sprite.renderColor = lerpColor(
         color(params[0], params[1], params[2]),
         color(params[3], params[4], params[5]),
         lerpFactor);
-      sprite.spriteShape.setFill(c);
       break;
     }
   }

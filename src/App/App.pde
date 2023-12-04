@@ -156,5 +156,7 @@ void mouseReleased() {
 
 void windowResized() {
   updateDynamicViewVars();
+  system.buttons.clear();
+  createUI();
   refreshView();
 }

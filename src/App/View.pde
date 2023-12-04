@@ -12,11 +12,19 @@ interface UI {
 
 // for dynamic view vars
 void updateDynamicViewVars() {
-  rightPanelWidth = width / 4;
-  rightPanelHeight = height;
+  rightPanelWidth = width / 6;
+  bottomPanelHeight = 100;
 
+  while(float(width - rightPanelWidth) / float(height - bottomPanelHeight) < (float(canvasWidth) / canvasHeight)){
+    bottomPanelHeight += 1;
+  }
+  while(float(width - rightPanelWidth) / float(height - bottomPanelHeight) > (float(canvasWidth) / canvasHeight)){
+    rightPanelWidth += 1;
+  }
+
+  rightPanelHeight = height;
   bottomPanelWidth = width - rightPanelWidth;
-  bottomPanelHeight = height / 8;
+  
 
   rightPannelBackground = lerpColor(themeColor, shadingColor, 0.05);
   bottomPannelBackground =  lerpColor(themeColor, shadingColor, 0.08);

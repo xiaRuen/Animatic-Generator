@@ -584,8 +584,7 @@ class System {
     }
 
     if (sprite.phyiscs != null) {
-      logError("sprite already had a phyiscs system");
-      return;
+      logMessage("overwriting sprite " + sprite.name + "'s physics system");
     }
 
     // try converting to float
