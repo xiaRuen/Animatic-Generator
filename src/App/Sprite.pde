@@ -77,6 +77,7 @@ class Sprite {
         fill(renderColor);
       }
       text(name.replace('_', ' '), 0, 0);
+      fill(textColor);
     }
 
 
