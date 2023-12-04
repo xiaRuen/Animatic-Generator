@@ -151,13 +151,13 @@ PShape tvBlur() {
 
   // background
   fill(0);
-  PShape background = createShape(RECT, 0, 0, width, height);
+  PShape background = createShape(RECT, 0, 0, canvasWidth, canvasHeight);
   group.addChild(background);
 
   // rects
   noiseDetail(3, 0.5);
-  for (int i = 0; i < width; i+= rectWidth) {
-    for (int j = 0; j < height; j+= rectHeight) {
+  for (int i = 0; i < canvasWidth; i+= rectWidth) {
+    for (int j = 0; j < canvasHeight; j+= rectHeight) {
       fill(255 * noise(i + randomGaussian(), j) * random(0.5, 1.5));
       PShape rect = createShape(RECT, i + rectWidth / 2 * randomGaussian(), j, rectWidth, rectHeight);
       group.addChild(rect);
@@ -168,8 +168,8 @@ PShape tvBlur() {
   for (int y = 0; y < 3; y++) {
     float greyScale = 200 + 50 * randomGaussian();
     fill(color(greyScale, greyScale, greyScale, greyScale-50));
-    float h = 30 + 20 * randomGaussian();
-    PShape beam = createShape(RECT, 0, random(height - h), width, h);
+    float h = 50 + 40 * randomGaussian();
+    PShape beam = createShape(RECT, 0, random(canvasHeight - h), canvasWidth, h);
     group.addChild(beam);
   }
   

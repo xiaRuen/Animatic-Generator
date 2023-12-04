@@ -109,13 +109,11 @@ void draw() {
 
     if (playing) {
       background(themeColor);
-
+      
       pushMatrix();
-      scale(canvasScaleX, canvasScaleY);
-
+      scale(canvasScaleX * width / canvasWidth, canvasScaleY * height / canvasHeight);
       system.runParticles(); // draw particles
       system.runSprites(); // draw sprites
-
       popMatrix();
 
       fill(textColor);

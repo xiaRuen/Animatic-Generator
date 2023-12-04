@@ -7,6 +7,7 @@
 0.7 create test tvBlur 0 0
 0.8 create test tvBlur 0 0
 0.9 create test tvBlur 0 0
+
 1 remove test
 1 create s1 default -100 200
 1 create s2 default 500 100
@@ -21,7 +22,6 @@
 5 remove s1
 5 remove s2
 5 remove s3
-
 6 create backc1 mycircle2 -100 200
 6 create backc2 mycircle2 500 100
 6 create backc3 mycircle2 10 500
@@ -34,7 +34,6 @@
 10 remove backc1
 10 remove backc2
 10 remove backc3
-
 12 create clock mycircle 0 0
 12 create needle1 clockneedle1 0 0
 13 remove needle1
@@ -45,27 +44,18 @@
 15 add physics needle3 0 1400
 16 remove clock
 16 remove needle3
-
-
 16 create How_Long_Have_I_Been_Up nameAsText 300 200
 17 create IDK nameAsText 350 250
 19 remove How_Long_Have_I_Been_Up
 19 remove IDK
-
 19 create cpu cpu 0 0
 26 remove cpu
-
 26 create eye eyebody 0 0
 26 create eyeb1 eyeball1 0 0
 26 create eyeb2 eyeball2 0 0
-
 30 remove eye
 30 remove eyeb1
 30 remove eyeb2
-
-
-
 39 create backc mycircle2 0 0
 39 add effect backc scale 5 1 2
 39.5 add effect backc scale 5 2 1
-

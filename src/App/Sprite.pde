@@ -54,6 +54,8 @@ class Sprite {
         if (effect.duration != -1 && millis() / 1000.0 - effect.birthTime > effect.duration) {
         system.logMessage("Effect is removed for sprite " + name);
         effects.remove(i);
+        scaleFactor = 1;
+        renderColor = color(4,0,4);
         i--; // don't skip an effect due to deletion
       } else {
         effect.apply();
@@ -61,11 +63,13 @@ class Sprite {
       }
       
     }
+
     if(spriteShape != null){
-      scale(scaleFactor);
+      
       if(renderColor != color(4,0,4)){
         spriteShape.setFill(renderColor);
       }
+      scale(scaleFactor);
       shape(spriteShape);
     } else {
       textSize(10 * scaleFactor);

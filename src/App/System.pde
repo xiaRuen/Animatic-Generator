@@ -112,6 +112,7 @@ class System {
         particleSystem = null;
       } else {
         particleSystem.run();
+        
       }
     }
   }
