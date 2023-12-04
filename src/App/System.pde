@@ -160,7 +160,8 @@ class System {
         .createForm("Create Sprites")
         .addText("Timing")
         .addText("Sprite Name")
-        .addSelection("Sprite Shape", "nameAsText", "default", "cpu", "tvBlur")
+        .addSelection("Sprite Shape", "nameAsText", "default", "cpu", "tvBlur", "mycircle", "clockneedle1",
+        "clockneedle2", "clockneedle3", "howlongtext", "eyebody", "eyeball1", "eyeball2", "building", "rectangle", "mycircle2")
         .addSlider("Position X (px)", 0, canvasWidth, 0, canvasWidth / 3, canvasWidth / 12)
         .addSlider("Position Y (px)", 0, canvasHeight, 0, canvasHeight / 3, canvasHeight / 12)
         .show();
@@ -223,7 +224,7 @@ class System {
         .createForm("Add Scale Animation")
         .addText("Timing")
         .addText("Sprite Name")
-        .addText("Duration (-1 for infinity)", "1")
+        .addText("Duration", "1")
         .addText("Initial Scale", "1")
         .addText("End Scale", "1")
         .show();
@@ -255,7 +256,7 @@ class System {
         .createForm("Add Color Animation")
         .addText("Timing")
         .addText("Sprite Name")
-        .addText("Duration (-1 for infinity)", "1")
+        .addText("Duration", "1")
         .addColorPicker("Initial Color")
         .addColorPicker("End Color")
         .show();
@@ -452,12 +453,51 @@ class System {
     // try load image
     if (args.length > 1 && !args[1].equals("null")) {
       switch(args[1]) {
+      //for text
       case "nameAsText":
         spriteShape = null;
         break;
       case "tvBlur":
         spriteShape = tvBlur();
         break;
+      //----------for clock
+      //any ellipse
+      case "mycircle":
+        spriteShape = mycircle();
+        break;
+      //clock needle1
+      case "clockneedle1":
+        spriteShape = clockneedle1();
+        break;
+      //clock needle2
+      case "clockneedle2":
+        spriteShape = clockneedle2();
+        break;
+      //clock needle3
+      case "clockneedle3":
+        spriteShape = clockneedle3();
+        break;
+      //eye
+      case "eyebody":
+        spriteShape = eyebody();
+        break;
+      case "eyeball1":
+        spriteShape = eyeball1();
+        break;
+      case "eyeball2":
+        spriteShape = eyeball2();
+        break;
+      //eye
+      case "building":
+        spriteShape = building();
+        break;
+      case "rectangle":
+        spriteShape = rectangle();
+        break;
+      case "mycircle2":  
+        spriteShape = mycircle2();
+        break;
+      //cpu
       case "cpu":
         spriteShape = cpuShape();
         break;

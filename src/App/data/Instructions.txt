@@ -21,3 +21,51 @@
 5 remove s1
 5 remove s2
 5 remove s3
+
+6 create backc1 mycircle2 -100 200
+6 create backc2 mycircle2 500 100
+6 create backc3 mycircle2 10 500
+6 add physics backc1 100 -100 5 0 100
+6 add physics backc2 -100 -100 0 0 100 2
+6 add physics backc3 100 -400 60 0 200 -30
+7 add effect backc2 color -1 195.0 29.0 219.0 219.0 185.0 47.0
+7 add effect backc3 scale 2 1 2
+7 add effect backc3 color 3 83.0 83.0 219.0 32.0 219.0 69.0
+10 remove backc1
+10 remove backc2
+10 remove backc3
+
+12 create clock mycircle 0 0
+12 create needle1 clockneedle1 0 0
+13 remove needle1
+13 create needle2 clockneedle2 0 0
+14 remove needle2
+14 create needle3 clockneedle3 0 0
+15 add physics clock 0 1400
+15 add physics needle3 0 1400
+16 remove clock
+16 remove needle3
+
+
+16 create How_Long_Have_I_Been_Up nameAsText 300 200
+17 create IDK nameAsText 350 250
+19 remove How_Long_Have_I_Been_Up
+19 remove IDK
+
+19 create cpu cpu 0 0
+26 remove cpu
+
+26 create eye eyebody 0 0
+26 create eyeb1 eyeball1 0 0
+26 create eyeb2 eyeball2 0 0
+
+30 remove eye
+30 remove eyeb1
+30 remove eyeb2
+
+
+
+39 create backc mycircle2 0 0
+39 add effect backc scale 5 1 2
+39.5 add effect backc scale 5 2 1
+

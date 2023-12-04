@@ -175,3 +175,123 @@ PShape tvBlur() {
   
   return group;
 }
+
+
+//--------------------------S3 clock-----------------------
+//clock body 
+PShape mycircle(){
+  //S3 - clock1
+  noStroke();
+  fill(255);
+  PShape clock;
+  clock = createShape(ELLIPSE, width/2, height/2, 300,300);
+  return clock;
+}
+
+//first needle
+PShape clockneedle1(){ //pointing at 2
+  //S3 - clock1
+  PShape timerect;
+  int x = width/2;
+  int y = height/2;
+  stroke(0);
+  strokeWeight(7);
+  float l = 100; //length for clock needle
+  float t = 2;
+  float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
+  timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
+  return timerect;
+}
+
+//second needle scene
+PShape clockneedle2(){ // pointing at 1
+  //S3 - clock1
+  PShape timerect;
+  int x = width/2;
+  int y = height/2;
+  stroke(0);
+  strokeWeight(7);
+  float l = 100; //length for clock needle
+  float t = 1;
+  float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
+  timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
+  return timerect;
+}
+
+//third needle scene
+PShape clockneedle3(){ //pointing at 0
+  //S3 - clock1
+  PShape timerect;
+  int x = width/2;
+  int y = height/2;
+  stroke(0);
+  strokeWeight(7);
+  float l = 100; //length for clock needle
+  float t = 0;
+  float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
+  timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
+  return timerect;
+}
+
+//eye
+PShape eyebody(){
+  PShape eyebody;
+  fill(255);
+  eyebody = createShape(ELLIPSE, width/2, height/2, 500, 250);
+  return eyebody;
+}
+
+PShape eyeball1(){
+  PShape eyeball1;
+  fill(0, 0, 255);
+  eyeball1 = createShape(ELLIPSE, 0, 0, 200, 200);
+  return eyeball1;
+}
+
+PShape eyeball2(){
+  PShape eyeball2;
+  fill(0);
+  eyeball2 = createShape(ELLIPSE, 0, 0, 100, 100);
+  return eyeball2;
+}
+
+//building
+PShape building(){
+  PShape building;
+  int quantity = 5;
+  PShape [] b = new PShape[quantity];
+  building = createShape(GROUP);
+  int[] rectHeights = new int[quantity];
+  int[] rectWidth = new int[quantity];
+  //int rectSize = 50;
+  int margin = 100;
+  rectMode(CENTER);
+  
+  // Generate random heights for all squares at the beginning
+  for (int i = 0; i < rectHeights.length; i++) {
+    rectHeights[i] = (int) random(130, 400);
+    rectWidth[i] = (int) random(50, 200);
+  }
+  
+  for (int i = 0, x = 50; i < rectHeights.length; i++, x += margin) {
+    b[i] = createShape(RECT, x, height / 2, rectWidth[i], rectHeights[i]);
+    building.addChild(b[i]);
+  }
+  
+  return building;
+}
+
+PShape rectangle(){
+  PShape r1;
+  fill(255, 100, 0);
+  r1 = createShape(RECT, 0, height/2, width, height/2);
+  return r1;
+}
+
+PShape mycircle2(){
+  noStroke();
+  fill(255);
+  PShape mycircle2;
+  mycircle2 = createShape(ELLIPSE, 0, 0, 300,300);
+  return mycircle2;
+}
