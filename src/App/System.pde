@@ -154,14 +154,13 @@ class System {
       default:
         logError("Unhandled case: action sprite " + action);
       }
-
       break;
     case "create":
       form = new UiBooster()
         .createForm("Create Sprites")
         .addText("Timing")
         .addText("Sprite Name")
-        .addSelection("Sprite Shape", "nameAsText", "default", "cpu", "tvBlur", "mycircle", "clockneedle1",
+        .addSelection("Sprite Shape", "nameAsText", "default", "cpu", "tvBlur", "linearWeb", "mycircle", "clockneedle1",
         "clockneedle2", "clockneedle3", "howlongtext", "eyebody", "eyeball1", "eyeball2", "building", "rectangle", "mycircle2")
         .addSlider("Position X (px)", 0, canvasWidth, 0, canvasWidth / 3, canvasWidth / 12)
         .addSlider("Position Y (px)", 0, canvasHeight, 0, canvasHeight / 3, canvasHeight / 12)
@@ -448,10 +447,8 @@ class System {
     float posY;
     float rad;
 
-
     name = args.length > 0 ? args[0] : "unnamed";
 
-    // try load image
     if (args.length > 1 && !args[1].equals("null")) {
       switch(args[1]) {
       //for text
@@ -460,6 +457,9 @@ class System {
         break;
       case "tvBlur":
         spriteShape = tvBlur();
+        break;
+      case "linearWeb":
+        spriteShape = linearWeb();
         break;
       //----------for clock
       //any ellipse
