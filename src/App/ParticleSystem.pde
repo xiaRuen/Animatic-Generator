@@ -1,38 +1,36 @@
 /*
-  The Particle System was originaly made to be used with openGL (Uibooster does not
-  support openGL) therefore data is sotred in buffer array.
+  The Particle System was originaly made to be used with openGL, therefore data
+  is sotred in buffer array.
  */
 class ParticleSystem {
   float birthTime;
   float previousTime;
   float bufferDataArray[];
   float duration;
-  int stride;
+  int stride; // how many floats per particle
 
   ParticleSystem() {
     birthTime = millis() / 1000.0;
     previousTime = birthTime;
 
     // parameters
-    duration = 4.0;
-    int particleCount = 1000;
+    duration = 10.0;
+    int particleCount = 5000;
 
-    float particleSize = 0.5;
+    float particleSize = 10;
     float deltaParticleSize = 1;
 
-    PVector particleLocation = new PVector(0, 0);
+    PVector particleLocation = new PVector(960, 540);
     PVector deltaParticleLocaiton = new PVector(200, 100);
 
     PVector particleVelocity = new PVector(100, 100);
     PVector deltaParticleVelocity = new PVector(40, 40);
 
-    PVector particleAcceleration = new PVector(0, 0);
+    PVector particleAcceleration = new PVector(-20, -20);
     PVector deltaParticleAcceleration = new PVector(20, 20);
 
 
-
-
-    stride = 7;  // how many floats per particle
+    stride = 7;
     bufferDataArray = new float[particleCount * stride];
 
     int arrayIndex = 0;
@@ -59,7 +57,7 @@ class ParticleSystem {
 
   void run() {
     float elapsedTime = millis() / 1000.0 - previousTime;
-    float cap = bufferDataArray.length * (millis() / 1000.0 - birthTime) / duration; // to simulate particles being gradually added
+    float cap = bufferDataArray.length * (millis() / 1000.0 - birthTime) / duration;
 
     for(int i = 0; i < cap; i += stride){
       // update velocity
