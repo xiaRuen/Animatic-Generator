@@ -1,3 +1,4 @@
+//-----include libraries------------------
 // sound
 import processing.sound.*;
 
@@ -7,12 +8,12 @@ import uibooster.*;
 import uibooster.model.*;
 import uibooster.components.*;
 
-
 // other
 import java.nio.file.*; // for checking paths
 import java.util.*; // for LinkedList
 import java.awt.Toolkit; // for alert()
 import java.util.Arrays; // for Arrays.copyOfRange()
+//-----end of include libraries------------------
 
 // System variables
 System system;
@@ -65,7 +66,7 @@ void setup() {
   previousTime = millis() / 1000;
   playing = false;
 
-  instructionFilePath = dataPath("Instructions.txt"); // default
+  instructionFilePath = dataPath("Instructions.txt"); 
   musicFilePath = dataPath("echo.wav");
 
   // initialize main window
@@ -79,7 +80,6 @@ void setup() {
   padding = 10;
   
   shadingColor = (red(themeColor) + green(themeColor) + blue(themeColor)) / 765 > 0.5 ? color(0,0,0) : color(255,255,255);
-
   textSize = 10;
   textColor = color(shadingColor, 150);
   textFont = createFont(dataPath("fonts/WenHei.ttf"), textSize);
