@@ -162,7 +162,7 @@ class System {
         .addText("Sprite Name")
         .addSelection("Sprite Shape", "nameAsText", "default", "cpu", "tvBlur", "mycircle", "clockneedle1",
         "clockneedle2", "clockneedle3", "howlongtext", "eyebody", "eyeball1", "eyeball2", "building", "rectangle", "mycircle2"
-        , "colorcircle", "linearWeb")
+        , "colorcircle", "linearWeb", "backWave")
         .addSlider("Position X (px)", 0, canvasWidth, 0, canvasWidth / 3, canvasWidth / 12)
         .addSlider("Position Y (px)", 0, canvasHeight, 0, canvasHeight / 3, canvasHeight / 12)
         .show();
@@ -503,6 +503,9 @@ class System {
         break;
       case "linearWeb":
         spriteShape = linearWeb();
+        break;
+      case "backWave":
+        spriteShape = backWave();
         break;
       //cpu
       case "cpu":
