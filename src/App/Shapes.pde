@@ -7,7 +7,7 @@ PShape defaultShape() {
   s = createShape();
   s.beginShape();
   s.noStroke();
-  s.fill(color(0, 0, 255, 200));
+  s.fill(color(0,0,255,200));
   float r = 30;
   float a = 0;
   for (int v = 0; v < 5; v++) {
@@ -29,7 +29,6 @@ PShape cpuShape() {
   int lineLength = 20; // length of each segment
   float turnRad = PI/4; // if turned, what's the turn angle
   float posTurnPosWeight = 4; // how much do we take account of the point's position
-
 
 
   // initialize points as in their starting positions
@@ -66,17 +65,17 @@ PShape cpuShape() {
 
     index++;
   }
-
+  
   // draw CPU sqaure
-  stroke(color(255, 0, 0));
+  stroke(color(255,0,0));
   PShape coreOuter = createShape(RECT, -coreRadius, -coreRadius, coreRadius * 2, coreRadius * 2);
   coreOuter.setFill(color(0, 1, 0, 0)); // black with zero alpha is not allowed
-
+  
 
   float padding = coreRadius * 0.1;
   PShape coreInner = createShape(RECT, -coreRadius + padding, -coreRadius + padding,
     coreRadius * 2 - padding * 2, coreRadius * 2 - 2 * padding);
-  coreInner.setFill(color(200, 0, 0));
+  coreInner.setFill(color(200,0,0));
 
   PShape lines[] = new PShape[totalLines];
 
@@ -86,7 +85,7 @@ PShape cpuShape() {
     lines[i] = createShape();
     lines[i].beginShape();
     lines[i].noFill();
-    lines[i].stroke(250, 0, 0);
+    lines[i].stroke(250, 0,0);
 
     // point: xPos, yPos, likelyness to left or right turn, which side is it facing
     for (int run = 0; run < width / lineLength; run++) {
@@ -140,9 +139,10 @@ PShape cpuShape() {
   return p;
 }
 
+
 PShape tvBlur() {
   PShape group = createShape(GROUP);
-
+  
   float rectWidth = 10;
   float rectHeight = 5;
 
@@ -163,7 +163,7 @@ PShape tvBlur() {
     }
   }
 
-  // beams
+   // beams
   for (int y = 0; y < 3; y++) {
     float greyScale = 200 + 50 * randomGaussian();
     fill(color(greyScale, greyScale, greyScale, greyScale-50));
@@ -171,9 +171,151 @@ PShape tvBlur() {
     PShape beam = createShape(RECT, 0, random(canvasHeight - h), canvasWidth, h);
     group.addChild(beam);
   }
-
+  
   return group;
 }
+
+
+//--------------------------S3 clock-----------------------
+//clock body 
+PShape mycircle(){
+  //S3 - clock1
+  noStroke();
+  fill(255);
+  PShape clock;
+  clock = createShape(ELLIPSE, canvasWidth/2, canvasHeight/2, 300,300);
+  return clock;
+}
+
+//first needle
+PShape clockneedle1(){ //pointing at 2
+  //S3 - clock1
+  PShape timerect;
+  int x = canvasWidth/2;
+  int y = canvasHeight/2;
+  stroke(0);
+  strokeWeight(7);
+  float l = 100; //length for clock needle
+  float t = 2;
+  float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
+  timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
+  return timerect;
+}
+
+//second needle scene
+PShape clockneedle2(){ // pointing at 1
+  //S3 - clock1
+  PShape timerect;
+  int x = canvasWidth/2;
+  int y = canvasHeight/2;
+  stroke(0);
+  strokeWeight(7);
+  float l = 100; //length for clock needle
+  float t = 1;
+  float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
+  timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
+  return timerect;
+}
+
+//third needle scene
+PShape clockneedle3(){ //pointing at 0
+  //S3 - clock1
+  PShape timerect;
+  int x = canvasWidth/2;
+  int y = canvasHeight/2;
+  stroke(0);
+  strokeWeight(7);
+  float l = 100; //length for clock needle
+  float t = 0;
+  float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
+  timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
+  return timerect;
+}
+
+//eye
+PShape eyebody(){
+  PShape eyebody;
+  fill(255);
+  eyebody = createShape(ELLIPSE, canvasWidth/2, canvasHeight/2, 500, 250);
+  return eyebody;
+}
+
+PShape eyeball1(){
+  PShape eyeball1;
+  fill(0, 0, 255);
+  eyeball1 = createShape(ELLIPSE, canvasWidth/2, canvasHeight/2, 200, 200);
+  return eyeball1;
+}
+
+PShape eyeball2(){
+  PShape eyeball2;
+  fill(0);
+  eyeball2 = createShape(ELLIPSE, canvasWidth/2, canvasHeight/2, 100, 100);
+  return eyeball2;
+}
+
+//building
+PShape building(){
+  PShape building;
+  int quantity = 20;
+  PShape [] b = new PShape[quantity];
+  building = createShape(GROUP);
+  int[] rectHeights = new int[quantity];
+  int[] rectWidth = new int[quantity];
+  //int rectSize = 50;
+  int margin = 210;
+  rectMode(CENTER);
+  
+  // Generate random heights for all squares at the beginning
+  for (int i = 0; i < rectHeights.length; i++) {
+    rectHeights[i] = (int) random(330, 600);
+    rectWidth[i] = (int) random(100, 300);
+  }
+  
+  for (int i = 0, x = 50; i < rectHeights.length; i++, x += margin) {
+    fill(150);
+    stroke(0);
+    strokeWeight(2);
+    b[i] = createShape(RECT, x, canvasHeight / 2, rectWidth[i], rectHeights[i]);
+    building.addChild(b[i]);
+  }
+  rectMode(CORNER);
+  return building;
+}
+
+PShape rectangle(){
+  PShape r1;
+  fill(100);
+  r1 = createShape(RECT, 0, canvasHeight/2+150, canvasWidth, canvasHeight/2);
+  return r1;
+}
+
+PShape mycircle2(){
+  noStroke();
+  fill(255);
+  PShape mycircle2;
+  mycircle2 = createShape(ELLIPSE, 0, 0, 200,200);
+  return mycircle2;
+}
+
+PShape colorcircle(){
+  float color1 = random(255);
+  float color2 = random(255);
+  float color3 = random(255);
+  PShape all, inner, middle, outer1, outer2;
+  all = createShape(GROUP);
+  fill(color3, 0, color1);
+  outer1 = createShape(ELLIPSE, 0, 0, 900, 900);
+  fill(color1, color2, 0);
+  outer2 = createShape(ELLIPSE, 0, 0, 700, 700);
+  fill(0, 0, color1);
+  middle = createShape(ELLIPSE, 0 ,0, 500, 500);
+  fill(color2, 0, color3);
+  inner = createShape(ELLIPSE, 0, 0, 300, 300);
+  all.addChild(outer1); all.addChild(outer2); all.addChild(middle); all.addChild(inner);
+  return all;
+}
+
 
 PShape linearWeb() {
   PShape group = createShape(GROUP);
@@ -185,7 +327,7 @@ PShape linearWeb() {
 
   int lineRadius = int(pow(canvasWidth * canvasWidth
     + canvasHeight * canvasHeight, 0.5) / 2);
-    
+
   int lineGroupsCount = int(random(5, 15));
   PVector offset = new PVector(
     lineRadius / 8 * randomGaussian(),
@@ -210,7 +352,7 @@ PShape linearWeb() {
       PShape line = createShape();
 
       pushMatrix();
-      
+
       line = createShape(QUAD, 
         -1.5 * lineRadius, random(-4, 0), 
         0, random(0, 5),
@@ -229,125 +371,4 @@ PShape linearWeb() {
   }
 
   return group;
-}
-
-
-//--------------------------S3 clock-----------------------
-//clock body
-PShape mycircle() {
-  //S3 - clock1
-  noStroke();
-  fill(255);
-  PShape clock;
-  clock = createShape(ELLIPSE, width/2, height/2, 300, 300);
-  return clock;
-}
-
-//first needle
-PShape clockneedle1() { //pointing at 2
-  //S3 - clock1
-  PShape timerect;
-  int x = width/2;
-  int y = height/2;
-  stroke(0);
-  strokeWeight(7);
-  float l = 100; //length for clock needle
-  float t = 2;
-  float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
-  timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
-  return timerect;
-}
-
-//second needle scene
-PShape clockneedle2() { // pointing at 1
-  //S3 - clock1
-  PShape timerect;
-  int x = width/2;
-  int y = height/2;
-  stroke(0);
-  strokeWeight(7);
-  float l = 100; //length for clock needle
-  float t = 1;
-  float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
-  timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
-  return timerect;
-}
-
-//third needle scene
-PShape clockneedle3() { //pointing at 0
-  //S3 - clock1
-  PShape timerect;
-  int x = width/2;
-  int y = height/2;
-  stroke(0);
-  strokeWeight(7);
-  float l = 100; //length for clock needle
-  float t = 0;
-  float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
-  timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
-  return timerect;
-}
-
-//eye
-PShape eyebody() {
-  PShape eyebody;
-  fill(255);
-  eyebody = createShape(ELLIPSE, width/2, height/2, 500, 250);
-  return eyebody;
-}
-
-PShape eyeball1() {
-  PShape eyeball1;
-  fill(0, 0, 255);
-  eyeball1 = createShape(ELLIPSE, 0, 0, 200, 200);
-  return eyeball1;
-}
-
-PShape eyeball2() {
-  PShape eyeball2;
-  fill(0);
-  eyeball2 = createShape(ELLIPSE, 0, 0, 100, 100);
-  return eyeball2;
-}
-
-//building
-PShape building() {
-  PShape building;
-  int quantity = 5;
-  PShape [] b = new PShape[quantity];
-  building = createShape(GROUP);
-  int[] rectHeights = new int[quantity];
-  int[] rectWidth = new int[quantity];
-  //int rectSize = 50;
-  int margin = 100;
-  rectMode(CENTER);
-
-  // Generate random heights for all squares at the beginning
-  for (int i = 0; i < rectHeights.length; i++) {
-    rectHeights[i] = (int) random(130, 400);
-    rectWidth[i] = (int) random(50, 200);
-  }
-
-  for (int i = 0, x = 50; i < rectHeights.length; i++, x += margin) {
-    b[i] = createShape(RECT, x, height / 2, rectWidth[i], rectHeights[i]);
-    building.addChild(b[i]);
-  }
-
-  rectMode(CORNER);
-  return building;
-}
-
-PShape rectangle() {
-  PShape r1;
-  fill(255, 100, 0);
-  r1 = createShape(RECT, 0, height/2, width, height/2);
-  return r1;
-}
-
-PShape mycircle2() {
-  noStroke();
-  fill(255);
-  PShape mycircle2;
-  mycircle2 = createShape(ELLIPSE, 0, 0, 300, 300);
-  return mycircle2;
 }
