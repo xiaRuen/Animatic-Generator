@@ -1,3 +1,9 @@
+0 create DEMO nameAsText 960 500
+0 add effect DEMO scale -1 6 6
+0 create ECHO_MV nameAsText 960 650
+0 add effect ECHO_MV scale -1 8 8
+1 remove DEMO
+1 remove ECHO_MV
 
 1.1 create test tvBlur 0 0
 1.2 create test tvBlur 0 0
@@ -18,12 +24,9 @@
 2.7 create test tvBlur 0 0
 2.8 create test tvBlur 0 0
 2.9 create test tvBlur 0 0
-3 remove test
+5 remove test
 
-3 create web linearWeb 0 0
-4 remove web
-4 create web linearWeb 0 0
-5 remove web
+
 5 create web linearWeb 0 0
 6 remove web
 6 create web linearWeb 0 0
@@ -53,8 +56,8 @@
 
 16 create How_Long_Have_I_Been_Up nameAsText 960 500
 16 add effect How_Long_Have_I_Been_Up scale -1 6 6
-18 create IDK nameAsText 960 600
-18 add effect IDK scale -1 6 6
+18 create IDK nameAsText 960 700
+18 add effect IDK scale -1 9 9
 19 remove How_Long_Have_I_Been_Up
 19 remove IDK
 
@@ -134,21 +137,59 @@
 46 remove test1
 46 remove WHY
 
+46 create bgw rectangle 0 0
+46 add effect bgw color -1 255 255 255
+46 create bw mycircle2 960 350
+46 add effect bw color -1 255 255 255 0 0 0
+47 remove bgw
+47 remove bw
+47 create bgb rectangle 0 -700
+47 add effect bgb color -1 0 0 0
+47 create bw mycircle2 960 730
+48 add physics bgb 0 1000
+48 add physics bw 0 -500
+48 create backwave backWave 0 300
+48 add effect backwave scale -1 5 5
+48 add physics backwave -500 0
+50 remove bw
+50 remove backwave
 50 particles
 
-60 create echo1 mycircle 0 500
-60 add physics echo1 3 0.1 0.1
-60 create echo2 mycircle 500 0
-60 add physics echo2 3 -0.1 0.1
-60 create echo3 mycircle 700 0
-60 add physics echo3 3 -0.1 -0.1
-60 create echo4 mycircle 0 0
-60 add physics echo4 3 0.1 0.1
+60 create echo1 mycircle 40 80
+60 add physics echo1 3 0.3 -0.3
+60 add effect echo1 color 4 255 255 255 20 40 255
+60 create echo2 mycircle 100 0
+60 add physics echo2 300 100
+60 add effect echo2 color 4 255 255 255 255 0 251
+60 create echo3 mycircle 100 0
+60 add physics echo3 3 -0.6 -0.8
+60 add effect echo3 color 4 255 255 255 20 140 2
+60 create echo4 mycircle 60 60
+60 add physics echo4 3 0.8 0.3
+60 add effect echo4 color 4 255 255 255 230 0 0
+
+60 create echo5 mycircle 200 150
+60 add physics echo5 -3.5 -0.3
+60 add effect echo5 color 4 255 255 255 20 40 255
+60 create echo6 mycircle 100 300
+60 add physics echo6 20 100
+60 add effect echo6 color 4 255 255 255 255 0 251
+60 create echo7 mycircle 550 0
+60 add physics echo7 200 300
+60 add effect echo7 color 4 255 255 255 20 140 2
+60 create echo8 mycircle 60 10
+60 add physics echo8 200 -300
+60 add effect echo8 color 4 255 255 255 230 0 0
+
 
 64 remove echo1
 64 remove echo2
 64 remove echo3
 64 remove echo4
+64 remove echo5
+64 remove echo6
+64 remove echo7
+64 remove echo8
 
 64 create out mycircle2 960 540
 64 add effect out scale -1 8 8
@@ -161,5 +202,9 @@
 68 remove mid
 68 remove in
 
-68.5 create BY nameAsText 960 540
-
+68.5 create BY nameAsText 960 500
+68.5 create IVAN_&_YUNNEE nameAsText 960 600
+68.5 add effect BY scale -1 6 6
+68.5 add effect IVAN_&_YUNNEE scale -1 6 6
+70 remove BY
+70 remove IVAN_&_YUNNEE
