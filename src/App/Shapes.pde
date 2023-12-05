@@ -183,7 +183,7 @@ PShape mycircle(){
   noStroke();
   fill(255);
   PShape clock;
-  clock = createShape(ELLIPSE, canvasWidth/2, canvasHeight/2, 300,300);
+  clock = createShape(ELLIPSE, canvasWidth/2, canvasHeight/2, 700,700);
   return clock;
 }
 
@@ -195,7 +195,7 @@ PShape clockneedle1(){ //pointing at 2
   int y = canvasHeight/2;
   stroke(0);
   strokeWeight(7);
-  float l = 100; //length for clock needle
+  float l = 300; //length for clock needle
   float t = 2;
   float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
   timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
@@ -210,7 +210,7 @@ PShape clockneedle2(){ // pointing at 1
   int y = canvasHeight/2;
   stroke(0);
   strokeWeight(7);
-  float l = 100; //length for clock needle
+  float l = 300; //length for clock needle
   float t = 1;
   float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
   timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
@@ -225,7 +225,7 @@ PShape clockneedle3(){ //pointing at 0
   int y = canvasHeight/2;
   stroke(0);
   strokeWeight(7);
-  float l = 100; //length for clock needle
+  float l = 300; //length for clock needle
   float t = 0;
   float time = map(t, 0, 12, 0, TWO_PI)-HALF_PI;
   timerect = createShape(LINE, x, y, cos(time)*l + x, sin(time)*l + y);
@@ -316,6 +316,30 @@ PShape colorcircle(){
   return all;
 }
 
+//backwave
+PShape backWave(){
+  PShape backWave, whiteWave, blackWave;
+  float offset = 50.0; //y-coordinate
+  float scaleVal = 35.0; //wave height
+  float angleInc = PI/28.0; //increment between angles
+  noStroke();
+  fill(0);
+  
+  backWave = createShape(GROUP);
+  float angle = 0.0;
+  for (int x = 0; x < canvasWidth+200; x += 5) {
+    float y1 = offset + (sin(angle) * scaleVal);
+    fill(255);
+    whiteWave = createShape(RECT, x, y1, 2, 4);
+    backWave.addChild(whiteWave);
+    float y2 = offset + (cos(angle) * scaleVal);
+    fill(0);
+    blackWave = createShape(RECT, x, y2, 2, 4);
+    angle += angleInc;
+    backWave.addChild(blackWave);
+  }
+  return backWave;
+}
 
 PShape linearWeb() {
   PShape group = createShape(GROUP);
