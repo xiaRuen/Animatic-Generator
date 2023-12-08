@@ -11,7 +11,7 @@ class ParticleSystem {
 
   ParticleSystem() {
     birthTime = millis() / 1000.0;
-    previousTime = birthTime;
+    previousTime = birthTime; 
 
     // parameters
     duration = 10.0;
@@ -21,7 +21,7 @@ class ParticleSystem {
     float deltaParticleSize = 1;
 
     PVector particleLocation = new PVector(960, 540);
-    PVector deltaParticleLocaiton = new PVector(200, 100);
+    PVector deltaParticleLocaiton = new PVector(200, 100); //location range 
 
     PVector particleVelocity = new PVector(100, 100);
     PVector deltaParticleVelocity = new PVector(40, 40);

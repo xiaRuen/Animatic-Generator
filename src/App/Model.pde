@@ -1,3 +1,5 @@
+/*Load data from txt&wav file to system.pde, and save data from system.pde*/
+
 // 1. parse by '/n'
 // 2. for each parsed line, parse by ' '
 ArrayList<ArrayList<String>> loadInstructions(String path) {

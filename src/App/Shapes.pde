@@ -1,3 +1,6 @@
+/*store shapes that */
+
+
 PShape defaultShape() {
   PShape s;
   // the only complete compelex shape for this formula is a star
@@ -258,26 +261,20 @@ PShape eyeball2(){
 PShape building(){
   PShape building;
   int quantity = 20;
-  PShape [] b = new PShape[quantity];
+  
   building = createShape(GROUP);
-  int[] rectHeights = new int[quantity];
-  int[] rectWidth = new int[quantity];
+  
   //int rectSize = 50;
   int margin = 210;
   rectMode(CENTER);
+  fill(150);
+  stroke(0);
+  strokeWeight(2);
   
-  // Generate random heights for all squares at the beginning
-  for (int i = 0; i < rectHeights.length; i++) {
-    rectHeights[i] = (int) random(330, 600);
-    rectWidth[i] = (int) random(100, 300);
-  }
-  
-  for (int i = 0, x = 50; i < rectHeights.length; i++, x += margin) {
-    fill(150);
-    stroke(0);
-    strokeWeight(2);
-    b[i] = createShape(RECT, x, canvasHeight / 2, rectWidth[i], rectHeights[i]);
-    building.addChild(b[i]);
+  for (int i = 0, x = 50; i < quantity; i++, x += margin) {
+    
+    building.addChild(createShape(RECT, x, canvasHeight / 2, randomGaussian()*100 + 200, randomGaussian()*50+380));
+    
   }
   rectMode(CORNER);
   return building;

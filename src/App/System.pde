@@ -1,3 +1,8 @@
+/*app logic
+adding everything here
+*/
+
+
 class System {
   // flow control
   ArrayList<Button> buttons;
@@ -79,7 +84,7 @@ class System {
 
     // render buttons
     // fill color suppose to be same as background color to hide primary,
-    //  but that will create a bug and make the whole thing disappear
+    // but that will create a bug and make the whole thing disappear
   }
 
   public void runInstructions() {

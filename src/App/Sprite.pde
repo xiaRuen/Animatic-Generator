@@ -1,10 +1,8 @@
 /*
   A Sprite class for sprite. A Sprite is defined as follows:
- - Only contian the basic attributes of name, shape, position, rotation
+ - Only contain the basic attributes of name, shape, position, rotation
  - Any additional funcitonality like effects or animaiton will be done
  by adding components to the sprite
- - the speacial case of renderIntermediate is for rendering to a intermediate
- PGraphics object, which we can then apply an layer of whole screen shader effect
  
  */
 
@@ -72,6 +70,7 @@ class Sprite {
       scale(scaleFactor);
       shape(spriteShape);
     } else {
+      textAlign(CENTER);
       textSize(10 * scaleFactor);
       if(renderColor != color(4,0,4)){
         fill(renderColor);
@@ -85,7 +84,7 @@ class Sprite {
   }
 }
 
-
+// ------------for animation-----------
 class Phyiscs {
   private Sprite s;
 
@@ -130,10 +129,9 @@ class Phyiscs {
 
 /*
  A component for the Sprite class, where it is called inside Sprite::render
- 
- vec4 params:
- Scale: initial scale, end scale
  */
+ 
+//for effect (scale, color)
 class Effect {
   Sprite sprite;
   int type;
