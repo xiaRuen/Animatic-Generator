@@ -3,12 +3,15 @@
 ArrayList<ArrayList<String>> loadInstructions(String path) {
   String strs[] = loadStrings(path);
 
-  // if file not found
-  if (strs == null) {
-    return null;
+  ArrayList<ArrayList<String>> rVal = new ArrayList<ArrayList<String>>();
+
+  // if file not found then create a file
+  if (!pathExist(path)){
+    saveInstructions(rVal);
+    return rVal;
   }
 
-  ArrayList<ArrayList<String>> rVal = new ArrayList<ArrayList<String>>();
+  
   
   for (int i = 0; i < strs.length; i++) {
     if(strs[i].length() != 0)
@@ -23,7 +26,13 @@ void saveInstructions(ArrayList<ArrayList<String>> instructions){
     for(int i = 0; i < str.length; i++){
       str[i] = String.join(" ", instructions.get(i));
     }
-    saveStrings(instructionFilePath, str);
+
+    if(pathExist(instructionFilePath)){
+      saveStrings(instructionFilePath, str);
+    } else {
+      saveStrings(instructionFilePath + ".txt", str);
+    }
+    
 
 }
 

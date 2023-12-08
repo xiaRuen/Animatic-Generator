@@ -341,6 +341,7 @@ class System {
         File f = new UiBooster().showFileSelection(".txt", "txt");
         if (f != null) { // if the user canceled the file selection popup
           instructionFilePath = f.getPath();
+          instructions = loadInstructions(instructionFilePath);
         }
       }
 
@@ -348,8 +349,10 @@ class System {
         File f = new UiBooster().showFileSelection(".wav", "wav"); // processing will throw error on .mp4
         if (f != null) {
           musicFilePath = f.getPath();
+          music = loadMusic(musicFilePath);
         }
       }
+      refreshView();
       break;
     case "play":
       startPlay();
