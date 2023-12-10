@@ -18,16 +18,16 @@ class ParticleSystem {
     int particleCount = 5000;
 
     float particleSize = 10;
-    float deltaParticleSize = 1;
+    float deltaParticleSize = 2;
 
     PVector particleLocation = new PVector(960, 540);
-    PVector deltaParticleLocaiton = new PVector(200, 100); //location range 
+    PVector deltaParticleLocaiton = new PVector(50, 50); //location range 
 
-    PVector particleVelocity = new PVector(100, 100);
-    PVector deltaParticleVelocity = new PVector(40, 40);
+    PVector particleVelocity = new PVector(0, 0);
+    PVector deltaParticleVelocity = new PVector(200, 200);
 
-    PVector particleAcceleration = new PVector(-20, -20);
-    PVector deltaParticleAcceleration = new PVector(20, 20);
+    PVector particleAcceleration = new PVector(0, 0);
+    PVector deltaParticleAcceleration = new PVector(200, 200);
 
 
     stride = 7;

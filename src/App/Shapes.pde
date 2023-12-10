@@ -72,13 +72,13 @@ PShape cpuShape() {
   // draw CPU sqaure
   stroke(color(255,0,0));
   PShape coreOuter = createShape(RECT, -coreRadius, -coreRadius, coreRadius * 2, coreRadius * 2);
-  coreOuter.setFill(color(0, 1, 0, 0)); // black with zero alpha is not allowed
+  coreOuter.setFill(color(0, 255, 0, 0)); // black with zero alpha is not allowed
   
 
   float padding = coreRadius * 0.1;
   PShape coreInner = createShape(RECT, -coreRadius + padding, -coreRadius + padding,
     coreRadius * 2 - padding * 2, coreRadius * 2 - 2 * padding);
-  coreInner.setFill(color(200,0,0));
+  coreInner.setFill(color(180,0,0));
 
   PShape lines[] = new PShape[totalLines];
 
@@ -266,17 +266,17 @@ PShape building(){
   
   //int rectSize = 50;
   int margin = 210;
-  rectMode(CENTER);
   fill(150);
   stroke(0);
   strokeWeight(2);
   
-  for (int i = 0, x = 50; i < quantity; i++, x += margin) {
-    
-    building.addChild(createShape(RECT, x, canvasHeight / 2, randomGaussian()*100 + 200, randomGaussian()*50+380));
+  for (int i = 0, x = 50; i < quantity; i++, x += margin + 50 * randomGaussian()) {
+    float w = randomGaussian()*60 + 200;
+    float h = randomGaussian()*150+400;
+    building.addChild(createShape(RECT, x, canvasHeight / 2 + 180 + 20*randomGaussian() - h, w, h));
     
   }
-  rectMode(CORNER);
+
   return building;
 }
 

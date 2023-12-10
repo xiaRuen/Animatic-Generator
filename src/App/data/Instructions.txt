@@ -61,19 +61,32 @@
 19 remove How_Long_Have_I_Been_Up
 19 remove IDK
 
-19 create cpu cpu 960 540
-19 add effect cpu scale 7 9 2
-26 remove cpu
+19 create cpu1 cpu 960 540
+19 add effect cpu1 scale 7 9 2
+22 create cpu2 cpu 960 540
+22 add effect cpu2 scale 4 6 2
+24 create cpu3 cpu 960 540
+24 add effect cpu3 scale 2 4 2
+25 create cpu4 cpu 960 540
+25 add effect cpu4 scale 1 3 2
+25.5 create cpu5 cpu 960 540
+25.5 add effect cpu5 scale 0.5 2.5 2
+
+26 remove cpu1
+26 remove cpu2
+26 remove cpu3
+26 remove cpu4
+26 remove cpu5
 
 26 create eye eyebody 0 0
 26 create eyeb1 eyeball1 0 0
 26 create eyeb2 eyeball2 0 0
 26 add physics eyeb1 -200 0
-26 add physics eyeb2 -300 0
+26 add physics eyeb2 -250 0
 26.7 add physics eyeb1 200 0
-26.7 add physics eyeb2 300 0
+26.7 add physics eyeb2 250 0
 28 add physics eyeb1 -200 0
-28 add physics eyeb2 -300 0
+28 add physics eyeb2 -250 0
 28.8 add physics eyeb1 0 0
 28.8 add physics eyeb2 0 0
 30 remove eye
