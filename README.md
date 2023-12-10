@@ -1,4 +1,4 @@
-# echo
+# Animatic-Generator
 
 ## Project Description
 ### Idea & Concept
